@@ -74,7 +74,7 @@ scripts/sync-requirements.sh         # after any dependency change
 
 ## Feedback agents
 
-- **Trust.** The repo is public, so anyone can open a `feedback` issue. Only issues and comments by Sean or a login in `.claude/skills/consume/trusted-authors.txt` reach an agent (`consume.py trusted`, with tests). Never pass issue text to an agent any other way.
+- **Trust.** The repo is public, so anyone can open a `feedback` issue. Only issues and comments by Sean or a login in `.claude/skills/consume/trusted-authors.txt` reach an agent (`consume.py screen`, with tests). Never pass issue text to an agent any other way.
 - `/consume` (`.claude/skills/consume/`) sorts open `feedback` issues: close,
   Cori (copy), Frank (code bugs) or `needs-sean`. Then it builds, gates,
   reviews and opens PRs. Run `/consume --dry-run` first. Spec:

@@ -5,7 +5,7 @@ and asks this module which issues may be read and which need a decision. The jud
 issue is, whether to close it) stay with the agents; the rules that must not
 drift live here, with tests. This module never calls `gh` or the network.
 
-    python consume.py trusted RAW.json --owner LOGIN [--trusted FILE]  # drop strangers' issues and comments
+    python consume.py screen RAW.json --owner LOGIN [--testers FILE]  # drop strangers' issues and comments
     python consume.py queue ISSUES.json PRS.json --owner LOGIN  # issues that need a decision
     python consume.py batches ROUTED.json [--cap N] # routed issues grouped into PRs
 
@@ -28,7 +28,7 @@ LANES = ("cori", "frank")
 MAX_PRS_PER_RUN = 3
 # The repo is public, so anyone can open an issue that the Feedback form labels `feedback`.
 # Only the owner's and these testers' issues and comments ever reach an agent. Changing the list takes a PR.
-TRUSTED_PATH = str(Path(__file__).parent / ".claude" / "skills" / "consume" / "trusted-authors.txt")
+TESTERS_PATH = str(Path(__file__).parent / ".claude" / "skills" / "consume" / "trusted-authors.txt")
 _LOGIN = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$")
 
 _WHERE = re.compile(r"^### Where in the tutorial[ \t]*\n(.*?)(?=^### |\Z)", re.DOTALL | re.MULTILINE)
@@ -89,7 +89,7 @@ def _why(issue: dict, open_prs: set[int], closed_prs: dict[int, int], owner: str
     return item("pending" if lane else "new")
 
 
-def load_trusted(path: str) -> frozenset[str]:
+def load_testers(path: str) -> frozenset[str]:
     """The testers' GitHub logins, lowercased. Blank lines and `#` comments are skipped."""
     logins = set()
     for number, line in enumerate(Path(path).read_text().splitlines(), 1):
@@ -102,7 +102,7 @@ def load_trusted(path: str) -> frozenset[str]:
     return frozenset(logins)
 
 
-def trusted(issues: list[dict], owner: str, testers: frozenset[str]) -> tuple[list[dict], list[dict]]:
+def screen(issues: list[dict], owner: str, testers: frozenset[str]) -> tuple[list[dict], list[dict]]:
     """The issues an agent may read, and the ones it may not.
 
     An issue is kept only when the owner or a listed tester opened it. On a kept issue, only the owner's
@@ -198,10 +198,10 @@ ROUTED_KEYS = {"number": int, "lane": str}
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="consume.py")
     sub = parser.add_subparsers(dest="command", required=True)
-    t = sub.add_parser("trusted")
+    t = sub.add_parser("screen")
     t.add_argument("issues")
     t.add_argument("--owner", required=True, help="repo owner's login: always trusted")
-    t.add_argument("--trusted", default=TRUSTED_PATH, help="file of testers' logins, one per line")
+    t.add_argument("--testers", default=TESTERS_PATH, help="file of testers' logins, one per line")
     q = sub.add_parser("queue")
     q.add_argument("issues")
     q.add_argument("prs")
@@ -213,11 +213,11 @@ def main(argv: list[str] | None = None) -> int:
 
     current = ""
     try:
-        if args.command == "trusted":
+        if args.command == "screen":
             current = args.issues
             issues = _load(args.issues, RAW_ISSUE_KEYS, _raw_issue_shape_ok)
-            current = args.trusted
-            safe, skipped = trusted(issues, args.owner, load_trusted(args.trusted))
+            current = args.testers
+            safe, skipped = screen(issues, args.owner, load_testers(args.testers))
             print(json.dumps({"issues": safe, "skipped": skipped}, indent=2))
             return 0
         if args.command == "queue":
