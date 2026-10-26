@@ -1,0 +1,28 @@
+# The tutorial's f (feedback) command opens this form prefilled: field ids must
+# match the query keys in feedback.py. `labels` is applied here, not in the link,
+# because testers without triage access can't set labels themselves.
+name: Feedback
+description: What would you change? What was confusing, broken, or good?
+title: "Feedback: "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for testing. You can also send feedback from inside the tutorial by typing `f` at any prompt.
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Your feedback
+      description: What would you change? What was confusing, broken, or good?
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where in the tutorial
+      placeholder: "e.g. Chapter 1, step 7"
+  - type: input
+    id: environment
+    attributes:
+      label: Your setup
+      description: Filled in for you when you send feedback from the tutorial.

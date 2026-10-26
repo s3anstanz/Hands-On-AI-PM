@@ -1,0 +1,201 @@
+# Every **bold** term in a Learn screen needs an entry here (a test checks this).
+
+[[term]]
+term = "large language model"
+definition = "A program trained on huge amounts of text to predict the next token. Usually shortened to LLM."
+chapter = "1"
+
+[[term]]
+term = "prompt"
+definition = "The text you send to a model: instructions, a question, any documents."
+chapter = "1"
+
+[[term]]
+term = "response"
+definition = "The text the model sends back. Also called a completion."
+chapter = "1"
+
+[[term]]
+term = "model"
+definition = "The trained program itself, such as Claude Sonnet 5.5."
+chapter = "1"
+
+[[term]]
+term = "API"
+definition = "How a product sends prompts to a model over the internet and gets responses back. Billed per use."
+chapter = "1"
+
+[[term]]
+term = "training"
+definition = "The one-time, very expensive process where a model learns from huge amounts of text."
+chapter = "1"
+
+[[term]]
+term = "inference"
+definition = "The model answering one request. This is what products pay for, per token."
+chapter = "1"
+
+[[term]]
+term = "knowledge cutoff"
+definition = "The date training data stops. The model doesn't know about anything after it unless the prompt says so."
+chapter = "1"
+
+[[term]]
+term = "tools"
+definition = "Abilities an app gives a model beyond writing text, such as searching the web. The app runs the tool and puts the results in the prompt."
+chapter = "1"
+
+[[term]]
+term = "probability"
+definition = "How likely the model rates a possible next token. All candidates' probabilities add up to 100%."
+chapter = "1"
+
+[[term]]
+term = "token"
+definition = "A chunk of text, often a whole common word or a piece of a longer one. Models read, write and bill in tokens."
+chapter = "1"
+
+[[term]]
+term = "parameters"
+definition = "The billions of numbers a model learned in training: its stored knowledge and skill. More usually means smarter, slower and pricier."
+chapter = "1"
+
+[[term]]
+term = "vocabulary"
+definition = "The fixed set of tokens (whole words and word pieces) a model can read and write, typically 100K to 200K entries."
+chapter = "2"
+
+[[term]]
+term = "tokenizer"
+definition = "The part that cuts text into tokens. Each company and model generation has its own, so token counts for the same text differ."
+chapter = "2"
+
+[[term]]
+term = "sampling"
+definition = "Choosing the next token from the model's probabilities."
+chapter = "3"
+
+[[term]]
+term = "temperature"
+definition = "A sampling setting. Low almost always picks the top token; high picks less likely tokens more often. It doesn't change what the model knows."
+chapter = "3"
+
+[[term]]
+term = "top-k"
+definition = "Keeps only the k most likely tokens before the pick."
+chapter = "3"
+
+[[term]]
+term = "top-p"
+definition = "Keeps the smallest set of tokens whose probabilities add up to p, then picks from those."
+chapter = "3"
+
+[[term]]
+term = "max_tokens"
+definition = "A cap on how long the answer can be, which also caps the output cost."
+chapter = "3"
+
+[[term]]
+term = "stop sequence"
+definition = "A string that ends the answer as soon as it appears."
+chapter = "3"
+
+[[term]]
+term = "effort"
+definition = "On the newest Claude models, sets how much the model thinks and spends (low to max). It doesn't control randomness."
+chapter = "3"
+
+[[term]]
+term = "hallucination"
+definition = "An answer that is fluent and confident but false."
+chapter = "4"
+
+[[term]]
+term = "grounding"
+definition = "Putting the right facts, such as your documents or a patient's chart, in the prompt and telling the model to answer only from them."
+chapter = "4"
+
+[[term]]
+term = "retrieval"
+definition = "Searching your own documents first and putting the best matches in the prompt. Often called RAG (Chapter 7)."
+chapter = "4"
+
+[[term]]
+term = "time to first token"
+definition = "How long a user waits before the first piece of the answer appears."
+chapter = "5"
+
+[[term]]
+term = "streaming speed"
+definition = "How fast the rest of the answer arrives once it starts, in tokens per second."
+chapter = "5"
+
+[[term]]
+term = "routing"
+definition = "Sending each request to the model that fits it: easy ones to a small model, hard ones to a large one."
+chapter = "5"
+
+[[term]]
+term = "input tokens"
+definition = "Everything you send the model in one request: system prompt, history, documents and the question. Billed at the input price."
+chapter = "6"
+
+[[term]]
+term = "output tokens"
+definition = "What the model writes back, including any thinking. Billed at the output price, which is several times the input price."
+chapter = "6"
+
+[[term]]
+term = "system prompt"
+definition = "The product's standing instructions, sent with every request. The user doesn't see it, but you pay for it each time."
+chapter = "6"
+
+[[term]]
+term = "tool definitions"
+definition = "Descriptions of the tools a model may call (search, a calculator, your database), sent with every request that offers them."
+chapter = "6"
+
+[[term]]
+term = "prompt caching"
+definition = "Reusing the repeated start of a prompt across requests. Cached reads cost a small fraction of the input price; writing the cache costs more than normal input, once."
+chapter = "6"
+
+[[term]]
+term = "batch"
+definition = "Sending many requests at once and collecting the answers later (within a day), at a discount. For work nobody is waiting on."
+chapter = "6"
+
+[[term]]
+term = "thinking tokens"
+definition = "The reasoning a model writes before its answer. Billed as output, and can be longer than the answer."
+chapter = "6"
+
+[[term]]
+term = "unit economics"
+definition = "What one unit of use costs and earns: cost per request, then per user, then per month."
+chapter = "6"
+
+[[term]]
+term = "cost of goods sold"
+definition = "COGS: the direct cost of serving each customer. For an AI feature, the model bill is a big part of it."
+chapter = "6"
+
+[[term]]
+term = "context window"
+definition = "Everything a model can see in one request: system prompt, history, documents and its own answer. It has a hard limit in tokens."
+chapter = "7"
+
+[[term]]
+term = "RAG"
+definition = "Retrieval-augmented generation: a search finds the relevant pieces, and the model answers from them."
+chapter = "7"
+
+[[term]]
+term = "job to be done"
+definition = "What the user is trying to get done, in their words. Design starts here, not with the model."
+chapter = "8"
+
+[[term]]
+term = "evals"
+definition = "Tests for an AI feature: real examples with known good answers, run before launch and after every change to measure quality."
+chapter = "8"

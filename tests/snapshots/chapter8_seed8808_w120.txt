@@ -1,0 +1,214 @@
+╭─ Design an AI feature ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Question: "Design an AI feature for X."                                                                             │
+│                                                                                                                      │
+│  You'll answer this in your own words at the end of the chapter. The Recap at the end of the Learn section lists     │
+│  what a strong answer covers.                                                                                        │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 8 · Step 1/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 1 of 4 · What a strong design covers ───────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  A strong design isn't a list of facts. It covers five things: structure, focus on the user, named tradeoffs, real   │
+│  numbers, and a decision you commit to.                                                                              │
+│  "It depends" is a fine start if you say on what, then decide.                                                       │
+│                                                                                                                      │
+│  Think of it like: a contractor's quote. It says what you need, what it costs and what they'd do, not every option.  │
+│                                                                                                                      │
+│  Why a PM cares: Real design reviews use this same structure.                                                        │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 8 · Step 2/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 2 of 4 · The structure: 1 to 5 ─────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  1. The user and the job to be done: who it's for and what has to go right.                                          │
+│  2. Requirements: quality, speed, cost, and how bad a mistake would be.                                              │
+│  3. Model: the smallest one that meets the quality bar, and why.                                                     │
+│  4. Settings: temperature or effort, matched to the task.                                                            │
+│  5. Context: what the model must see, pasted or fetched.                                                             │
+│                                                                                                                      │
+│  Why a PM cares: Reviewers listen first for whether you start from the user, not the model.                          │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 8 · Step 3/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 3 of 4 · The structure: 6 to 9 ─────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  6. Cost: users × requests × tokens × price, per month and per user.                                                 │
+│  7. Risks and safeguards: what goes wrong (often a confident wrong answer) and what catches it.                      │
+│  8. Recommendation: commit. "I'd use X because Y. I'd switch to Z if W."                                             │
+│  9. Measurement: evals before launch, live metrics after.                                                            │
+│                                                                                                                      │
+│  Why a PM cares: End on a number, a decision and a check. That's what makes it a PM answer.                          │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 8 · Step 4/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 4 of 4 · A worked example ──────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  A travel site wants a three-line summary of guest reviews on each of its 50,000 hotel pages.                        │
+│  1 and 2. Travelers decide fast. Summaries must match the reviews and be cheap. Nobody waits: they run weekly.       │
+│  3 and 4. Haiku 5.5, because summarizing is easy work. Low effort.                                                   │
+│  5. Paste that hotel's reviews: about 6,000 tokens.                                                                  │
+│  6. Batch, once a week: about $76.07 a month (prices checked 2026-10-09).                                            │
+│  7. Risk: an invented complaint. Safeguards: each point quotes a review, and readers can flag a summary.             │
+│  8. Haiku in batch; switch to Sonnet if the spot checks fail.                                                        │
+│  9. Each week, check 100 summaries against their reviews and watch the flag rate.                                    │
+│                                                                                                                      │
+│  Why a PM cares: Nine short lines, one number, one decision: aim for that shape.                                     │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 8 · Step 5/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Recap ──────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  This chapter in 9 points. They're also what a strong answer to "Design an AI feature for X." covers.                │
+│                                                                                                                      │
+│  • The user and the job to be done.                                                                                  │
+│  • Requirements: quality, speed, cost and risk.                                                                      │
+│  • Model choice, with a reason.                                                                                      │
+│  • Settings: temperature or effort, with a reason.                                                                   │
+│  • Context: paste everything or fetch what's relevant.                                                               │
+│  • Cost: a number per month and per user.                                                                            │
+│  • Risks and safeguards.                                                                                             │
+│  • Recommendation: commit, and say what would change it.                                                             │
+│  • Measurement: evals before launch, live metrics after.                                                             │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 8 · Step 6/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+Design an AI feature for: Medical-note summarizer (illustrative usage)
+Turns a clinic visit transcript into a draft note for the doctor to review.
+
+Users: 100 a day, 15 requests each (1,500 requests a day).
+Each request: about 7,800 tokens in (1,100 of them a fixed system prompt) and 610 out.
+Reference material: 190,000 tokens of documents the answers may need.
+It runs in the background: nobody is waiting for each answer.
+Answers have to match facts the model must be given.
+High stakes: a wrong answer can hurt a patient.
+
+Take a moment: who is the user, and what has to go right? Then make your choices.
+Ch 8 · Step 7/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+Your design for the Medical-note summarizer
+
+Model
+  1. Claude Haiku 5.5 (small): $0.10 in, $0.50 out per 1M tokens
+  2. Claude Sonnet 5.5 (medium): $2.00 in, $10.00 out per 1M tokens
+  3. Claude Opus 5.5 (large): $4.00 in, $20.00 out per 1M tokens
+prices checked 2026-10-09
+Model [1-3]
+
+Claude Sonnet 5.5 doesn't let you change temperature (Chapter 3). You steer it with effort: how much it thinks before 
+answering.
+
+Effort
+  1. low
+  2. medium
+  3. high
+Effort [1-3]
+
+Context
+  1. None: rely on what the model already knows
+  2. Paste everything: all 190,000 tokens, every request
+  3. Fetch what's relevant: about 3,000 tokens a request
+Context [1-3]
+
+Caching and batch
+  1. Neither
+  2. Prompt caching: reuse the fixed start of the prompt
+  3. Batch: 50% off, answers come back later
+  4. Both
+Caching and batch [1-4]
+Ch 8 · Step 8/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+Your design: Claude Sonnet 5.5 · effort medium · fetch what's relevant · caching
+
+Monthly cost: $1,438.83, about $14.39 per user a month (prices checked 2026-10-09).
+Time to first token: about 1.2 s (illustrative). Nobody is waiting, so batch would take 50% off.
+Hallucination risk: MEDIUM. The facts are in the prompt, as long as the search finds them. Raised a level for the 
+stakes: have a clinician review it.
+
+Same choices, each model (← yours)
+Model          Per month   First token
+──────────────────────────────────────
+Haiku 5.5         $72.16         0.7 s
+Sonnet 5.5 ←   $1,438.83         1.2 s
+Opus 5.5       $2,877.66         2.2 s
+Speeds and the thinking-token and cache-hit numbers are illustrative; prices are real.
+What this shows: model, effort, context and caching trade cost, speed and risk against each other (Learn 2 and 3).
+
+Type b to change a choice. Next, commit: your recommendation for the Medical-note summarizer, with your reasons and the 
+numbers above.
+Ch 8 · Step 9/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Design an AI feature ───────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Question: "Design an AI feature for X."                                                                             │
+│                                                                                                                      │
+│  Your turn.                                                                                                          │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Answer out loud, then type your answer in your own words. Stuck? Type h for a hint. (finish with an empty line)
+>
+>
+Ch 8 · Step 10/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Your answer ────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ It predicts the next token from probabilities, one at a time.                                                        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+A strong answer covers these. Did yours?
+1. Starts with the user and the job to be done (who uses it, what has to go right) before picking a model [y/N]
+2. Picks a model size and gives a reason tied to quality, speed or cost [y/N]
+3. Picks temperature or effort and says why it fits the task [y/N]
+4. Picks a context strategy (paste everything, fetch what's relevant, or none) and says why [y/N]
+5. Gives a monthly cost as a number, built from users, requests, tokens and price [y/N]
+6. Says how long users will wait for an answer, or that nobody waits [y/N]
+7. Names the hallucination risk and at least one safeguard [y/N]
+8. Commits to a recommendation and says what would change it [y/N]
+Self-score: 8/8
+╭─ A strong answer ────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ I'd start with the user and the job: who it's for and what has to go right. Then requirements: quality, speed, cost, │
+│ and how bad a mistake would be. I'd pick the smallest model that meets the quality bar, with low effort for          │
+│ one-right-answer work, and fetch only the relevant documents while caching the fixed system prompt. Users × requests │
+│ × tokens × price gives the monthly cost and the cost per user, and I'd check the time to first token against how     │
+│ long people will wait. The main risk is a confident wrong answer, so I'd ground it in the documents, let it say "I   │
+│ don't know", and add human review where a mistake hurts. I'd launch with the small model, switch up if our test set  │
+│ says it isn't good enough, and measure with that test set before launch and user flags after.                        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Now say it out loud once more, in your own words.
+Ch 8 · Step 11/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+Follow-up 1 of 3
+Your design: Claude Sonnet 5.5 · effort medium · fetch what's relevant · caching
+
+Reviewer: Legal asks who is responsible when a summary is wrong.
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: The clinician who signs off. The tool drafts; it doesn't decide. Label summaries as AI drafts,
+keep an audit trail of the source and the edits, and sign a data agreement with the model provider for patient data.
+Ch 8 · Step 12/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+Follow-up 2 of 3
+Your design: Claude Sonnet 5.5 · effort medium · fetch what's relevant · caching
+
+Reviewer: Clinicians now want the summary during the visit, in two seconds.
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: It becomes interactive, so batch is out and time to first token matters. Use a faster model or
+lower effort, and stream the answer. Then check on real notes that accuracy holds. Speed can't cost us wrong doses.
+Ch 8 · Step 13/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+Follow-up 3 of 3
+Your design: Claude Sonnet 5.5 · effort medium · fetch what's relevant · caching
+
+Reviewer: Latency now matters twice as much. Does your answer change?
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: Look at time to first token. A smaller model, less effort, a shorter prompt and caching all 
+start faster, and streaming makes the wait feel shorter. Batch is out. Say what quality you'd give up and how you'd 
+check it's still good enough.
+Ch 8 · Step 14/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+One last question
+Reviewer: How would you prove the cheaper model is good enough?
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: evals. Collect a few hundred real cases with known good answers. Set the pass bar before you 
+look. Run both models on them and compare the scores and the kinds of mistakes. Keep running them after launch and after
+every change.
+Evals are a topic of their own. A future chapter covers them.
+Ch 8 · Step 15/15 · seed 8808   [Enter] next  [b] back  [q] menu  [f] feedback
+How was this chapter? Want to send feedback? [y/N]

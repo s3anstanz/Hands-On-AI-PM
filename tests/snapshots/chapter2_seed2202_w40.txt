@@ -1,0 +1,535 @@
+╭─ Tokens: what models read and bill ──╮
+│                                      │
+│  Question: "What's a token and why   │
+│  does it matter?"                    │
+│                                      │
+│  You'll answer this in your own      │
+│  words at the end of the chapter.    │
+│  The Recap at the end of the Learn   │
+│  section lists what a strong answer  │
+│  covers.                             │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 2 · Step 1/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 1 of 5 · What a token is ───────────╮
+│                                      │
+│  Models read text in chunks, not     │
+│  whole words. Each chunk is a        │
+│  token.                              │
+│  Common words are usually one        │
+│  token. Rare or long words split     │
+│  into pieces.                        │
+│                                      │
+│  Think of it like: Lego bricks. A    │
+│  common word is one big brick; a     │
+│  rare word takes several small       │
+│  ones.                               │
+│                                      │
+│  Example: On OpenAI's public         │
+│  tokenizer, "the" is one token and   │
+│  "antidisestablishmentarianism" is   │
+│  six: ant · idis · est · ablishment  │
+│  · arian · ism.                      │
+│                                      │
+│  Why a PM cares: Expect names, part  │
+│  numbers and jargon to use more      │
+│  tokens than their word count        │
+│  suggests.                           │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 2 · Step 2/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 2 of 5 ─────────────────────────────╮
+│                                      │
+│  Why tokens, not words or letters    │
+│  A model has a fixed vocabulary of   │
+│  roughly 100K to 200K pieces.        │
+│  Whole words plus word pieces cover  │
+│  any text, including typos, names    │
+│  and brand-new words.                │
+│  Letters alone make text long and    │
+│  slow. Whole words alone miss        │
+│  anything new.                       │
+│                                      │
+│  Think of it like: a phrasebook      │
+│  plus an alphabet. Use a whole       │
+│  phrase when you have one; spell     │
+│  out the rest.                       │
+│                                      │
+│  Example: A made-up name like        │
+│  "Zorblax" still works: on OpenAI's  │
+│  public tokenizer it's built from Z  │
+│  · or · bl · ax.                     │
+│                                      │
+│  Why a PM cares: The model never     │
+│  rejects odd input. It just spends   │
+│  more tokens on it.                  │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 2 · Step 3/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 3 of 5 ─────────────────────────────╮
+│                                      │
+│  Everything is measured in tokens    │
+│  Price: dollars per million tokens.  │
+│  Input and output are counted        │
+│  separately.                         │
+│  Speed: tokens per second.           │
+│  Size limit: how much a model can    │
+│  read at once, also in tokens        │
+│  (Chapter 7).                        │
+│                                      │
+│  Example: A 2,000-token prompt and   │
+│  a 500-token answer: those two       │
+│  numbers set the cost, the speed     │
+│  and whether it fits.                │
+│                                      │
+│  Why a PM cares: Every cost          │
+│  estimate for your product starts    │
+│  with a token count.                 │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 2 · Step 4/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 4 of 5 ─────────────────────────────╮
+│                                      │
+│  The rule of thumb, and its catch    │
+│  OpenAI's long-standing rule of      │
+│  thumb: a token is about ¾ of an     │
+│  English word.                       │
+│  The real ratio depends on the       │
+│  tokenizer, the part that cuts text  │
+│  into tokens. Each company and       │
+│  model generation has its own.       │
+│  OpenAI's newest public tokenizer    │
+│  fits more English into each token.  │
+│  Anthropic's current tokenizer       │
+│  (Claude 4.7 and every newer model)  │
+│  fits less, about 0.555 words per    │
+│  token.                              │
+│                                      │
+│  Example: By the classic ¾ rule,     │
+│  1,000 words is about 1,300 tokens.  │
+│  Today's tokenizers range from       │
+│  about 1,100 (OpenAI) to about       │
+│  1,800 (Claude), so measure your     │
+│  own text.                           │
+│                                      │
+│  Why a PM cares: A tokenizer change  │
+│  is a silent price change: same      │
+│  prompt, same price per token, more  │
+│  tokens.                             │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 2 · Step 5/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 5 of 5 · What uses more tokens ─────╮
+│                                      │
+│  Rare words, numbers, code, emoji    │
+│  and many non-English languages      │
+│  split into more pieces.             │
+│  The same sentence can take          │
+│  noticeably more tokens in another   │
+│  language, sometimes about twice as  │
+│  many.                               │
+│                                      │
+│  Example: On OpenAI's public         │
+│  tokenizer, "The meeting is moved    │
+│  to Thursday afternoon." is 8        │
+│  tokens. The same sentence in Hindi  │
+│  is 17.                              │
+│                                      │
+│  Why a PM cares: The same feature    │
+│  can cost more in some languages,    │
+│  so budget per language, not just    │
+│  per user.                           │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 2 · Step 6/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ Recap ──────────────────────────────╮
+│                                      │
+│  This chapter in 6 points. They're   │
+│  also what a strong answer to        │
+│  "What's a token and why does it     │
+│  matter?" covers.                    │
+│                                      │
+│  • A token is a chunk of text: a     │
+│  word or a piece of one.             │
+│  • OpenAI's rule of thumb is about   │
+│  ¾ of an English word per token.     │
+│  The real ratio depends on the       │
+│  tokenizer.                          │
+│  • Price, speed and size limits are  │
+│  all counted in tokens.              │
+│  • Rare words, numbers, code, emoji  │
+│  and many other languages use more   │
+│  tokens (Hindi takes about 2.1×      │
+│  English).                           │
+│  • Different companies' tokenizers   │
+│  count the same text differently,    │
+│  so the bill differs too.            │
+│  • Put a number on it. By the        │
+│  classic ¾ rule, 1,000 words is      │
+│  about 1,300 tokens. Today's         │
+│  tokenizers range from about 1,100   │
+│  (OpenAI) to about 1,800 (Claude),   │
+│  so measure your own text.           │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 2 · Step 7/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Quick check 1 (not graded)
+By the ¾-word rule of thumb, about how 
+many tokens is a 1,000-word English 
+document?
+  1. About 750
+  2. About 1,300
+  3. About 4,000
+Your pick [1-3]
+Not quite: it's 2. 1,000 ÷ 0.75 ≈ 1,333.
+A token is less than a word, so you get 
+more tokens than words. Today's 
+tokenizers give about 1,100 to 1,800, so
+measure your own text.
+Reread Learn screen 4? [Y/n]
+╭─ 4 of 5 ─────────────────────────────╮
+│                                      │
+│  The rule of thumb, and its catch    │
+│  OpenAI's long-standing rule of      │
+│  thumb: a token is about ¾ of an     │
+│  English word.                       │
+│  The real ratio depends on the       │
+│  tokenizer, the part that cuts text  │
+│  into tokens. Each company and       │
+│  model generation has its own.       │
+│  OpenAI's newest public tokenizer    │
+│  fits more English into each token.  │
+│  Anthropic's current tokenizer       │
+│  (Claude 4.7 and every newer model)  │
+│  fits less, about 0.555 words per    │
+│  token.                              │
+│                                      │
+│  Example: By the classic ¾ rule,     │
+│  1,000 words is about 1,300 tokens.  │
+│  Today's tokenizers range from       │
+│  about 1,100 (OpenAI) to about       │
+│  1,800 (Claude), so measure your     │
+│  own text.                           │
+│                                      │
+│  Why a PM cares: A tokenizer change  │
+│  is a silent price change: same      │
+│  prompt, same price per token, more  │
+│  tokens.                             │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 2 · Step 8/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Quick check 2 (not graded)
+Which of these uses the most tokens?
+  1. "extraordinarily"
+  2. "2024-10-14"
+  3. "refrigerator"
+Your pick [1-3]
+Not quite: it's 2. The date. Numbers and
+punctuation split into small pieces, so 
+a 10-character date takes more tokens 
+than a 15-letter word made of common 
+chunks. Length in letters is a poor 
+guide.
+Reread Learn screen 5? [Y/n]
+╭─ 5 of 5 · What uses more tokens ─────╮
+│                                      │
+│  Rare words, numbers, code, emoji    │
+│  and many non-English languages      │
+│  split into more pieces.             │
+│  The same sentence can take          │
+│  noticeably more tokens in another   │
+│  language, sometimes about twice as  │
+│  many.                               │
+│                                      │
+│  Example: On OpenAI's public         │
+│  tokenizer, "The meeting is moved    │
+│  to Thursday afternoon." is 8        │
+│  tokens. The same sentence in Hindi  │
+│  is 17.                              │
+│                                      │
+│  Why a PM cares: The same feature    │
+│  can cost more in some languages,    │
+│  so budget per language, not just    │
+│  per user.                           │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 2 · Step 9/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Count the tokens
+
+The model drafts a reply and an agent 
+approves it.
+Your prediction: how many tokens is this
+sentence? [1-100]
+The model drafts a reply and an agent 
+approves it.
+11 tokens on OpenAI's public tokenizer 
+(GPT-4o / GPT-5 era), for 10 words. You 
+guessed 1: off by 10.
+The ¾ rule would say about 13. Short 
+common words are about one token each.
+Each color is one token.
+What this shows: common words are about 
+one token each, so word count is a fair 
+first guess (Learn 1).
+Ch 2 · Step 10/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Tokenize your own text
+Type anything: a sentence, a product 
+name, an email address. Each color is 
+one token.
+Your text, one line at a time (Enter to 
+move on)
+What this shows: unusual text costs more
+tokens than its word count suggests 
+(Learn 5).
+Ch 2 · Step 11/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Measure the rule
+Three paragraphs of plain English, 92 
+words in all:
+
+Customers in the beta asked for shorter 
+summaries, so the assistant now gives a 
+three sentence overview first and offers
+the full report as a link at the bottom.
+
+Our quarterly planning starts with the 
+company goals. Each team proposes a few 
+outcomes, estimates the effort, and 
+agrees on the metrics that will tell us 
+whether the work paid off.
+
+When the model is unsure, it still 
+writes fluent sentences. That is why the
+team added citations to every answer and
+a button that lets users flag a response
+that looks wrong.
+
+Three ways to predict the tokens in 
+these same words, scaled to 1,000 words:
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━┓
+┃ Way of      ┃             ┃    1,000 ┃
+┃ counting    ┃ Words/token ┃    words ┃
+┡━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━┩
+│ OpenAI's    │        0.75 │    1,333 │
+│ rule of     │             │   tokens │
+│ thumb       │             │          │
+│ Measured:   │        0.91 │    1,098 │
+│ OpenAI's    │             │   tokens │
+│ public      │             │          │
+│ tokenizer   │             │          │
+│ (GPT-4o /   │             │          │
+│ GPT-5 era)  │             │          │
+│ Claude      │       0.555 │    1,802 │
+│ (estimate:  │             │   tokens │
+│ Claude's    │             │          │
+│ tokenizer   │             │          │
+│ isn't       │             │          │
+│ public)     │             │          │
+└─────────────┴─────────────┴──────────┘
+Not the same: 1,333 vs 1,098 vs 1,802 
+tokens for the same words.
+What this shows: same words, three token
+counts, because ¾ is only a rule of 
+thumb (Learn 4).
+Ch 2 · Step 12/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+What splits into many pieces
+┏━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━┓
+┃ Example      ┃ Tokens ┃ Pieces       ┃
+┡━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━┩
+│ Long rare    │      6 │ ant · idis · │
+│ word         │        │ est ·        │
+│              │        │ ablishment · │
+│              │        │ arian · ism  │
+│ Medical term │      8 │ p · seud ·   │
+│              │        │ oh · yp · op │
+│              │        │ · ar · athy  │
+│              │        │ · roidism    │
+│ Number       │      5 │ 3 · . · 141  │
+│              │        │ · 592 · 65   │
+│ Code         │     12 │ for · ␣i ·   │
+│              │        │ ␣in · ␣range │
+│              │        │ · ( · 10 ·   │
+│              │        │ ): · ␣print  │
+│              │        │ · (i · ** ·  │
+│              │        │ 2 · )        │
+│ Emoji        │     10 │ Great · ␣job │
+│              │        │ · ! · ␣ · 🎉 │
+│              │        │ · 👏 · 🏽(2) · │
+│              │        │ 🚀(2)        │
+└──────────────┴────────┴──────────────┘
+␣ is a space. 🏽(2) is one piece holding 2
+tokens: some emoji and scripts split 
+mid-character.
+Counted with OpenAI's public tokenizer 
+(GPT-4o / GPT-5 era). Claude splits text
+differently.
+What this shows: rare words, numbers, 
+code and emoji split into many pieces, 
+so they cost more (Learn 5).
+Ch 2 · Step 13/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Same sentence, different languages
+English: The meeting is moved to 
+Thursday afternoon.
+Japanese: 
+会議は木曜日の午後に変更されました。
+  1. The English version
+  2. The Japanese version
+  3. About the same
+Your prediction: which uses more tokens?
+[1-3]
+You predicted the English version.
+┏━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━┓
+┃ Language ┃ Tokens ┃ × English ┃
+┡━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━┩
+│ English  │      8 │      1.0× │
+│ Spanish  │     11 │      1.4× │
+│ Japanese │     12 │      1.5× │
+│ Hindi    │     17 │      2.1× │
+└──────────┴────────┴───────────┘
+Counted with OpenAI's public tokenizer 
+(GPT-4o / GPT-5 era).
+Japanese takes 1.5× and Hindi 2.1× the 
+tokens of English here.
+What this shows: many languages need 
+more tokens for the same meaning (Learn 
+5).
+Ch 2 · Step 14/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Same text, different bills
+The pharmacy app reminds patients when a
+refill is due and explains each 
+medication in plain language. Doctors 
+can see whether patients picked up their
+prescriptions.
+
+One request is this paragraph as the 
+whole prompt. Input only, no answer.
+OpenAI's public tokenizer (GPT-4o / 
+GPT-5 era): 28 tokens
+Claude (estimate: Claude's tokenizer 
+isn't public): about 47-67 tokens
+┏━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃ Model  ┃ 1 request ┃ 1M requests ┃
+┡━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ Claude │ $0.000228 │     $228.00 │
+│ Opus   │           │             │
+│ 5.5    │           │             │
+│ Claude │ $0.000114 │     $114.00 │
+│ Sonnet │           │             │
+│ 5.5    │           │             │
+│ Claude │ $0.000006 │       $5.70 │
+│ Haiku  │           │             │
+│ 5.5    │           │             │
+│ GPT-6  │ $0.000280 │     $280.00 │
+│ Astra  │           │             │
+│ GPT-6  │ $0.000003 │       $2.80 │
+│ Luna   │           │             │
+└────────┴───────────┴─────────────┘
+prices checked 2026-10-09. Claude counts
+are estimates; OpenAI counts use its 
+public GPT-4o / GPT-5 era tokenizer, an 
+approximation for GPT-6.
+One Claude Opus 5.5 request: ~57 tokens 
+× $4.00 per million = $0.000228. A 
+million of them: $228.00.
+Claude Haiku 5.5 counts ~57 tokens to 
+GPT-6 Astra's 28, yet costs less, 
+because its price per token is lower.
+So compare the cost of your real text, 
+per language, not the price per token.
+What this shows: the bill is tokens 
+times price, and both differ by vendor 
+(Learn 3 and 4).
+Ch 2 · Step 15/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ Tokens: what models read and bill ──╮
+│                                      │
+│  Question: "What's a token and why   │
+│  does it matter?"                    │
+│                                      │
+│  Your turn.                          │
+│                                      │
+╰──────────────────────────────────────╯
+Answer out loud, then type your answer 
+in your own words. Stuck? Type h for a 
+hint. (finish with an empty line)
+>
+>
+Ch 2 · Step 16/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ Your answer ────────────────────────╮
+│ It predicts the next token from      │
+│ probabilities, one at a time.        │
+╰──────────────────────────────────────╯
+A strong answer covers these. Did yours?
+1. Says a token is a chunk of text (a 
+word or a piece of one), not always a 
+whole word [y/N]
+2. Says a token is about ¾ of an English
+word on average, and says it depends on 
+the tokenizer [y/N]
+3. Says price, speed and limits are all 
+measured in tokens [y/N]
+4. Names at least two kinds of text that
+use more tokens: rare words, numbers, 
+code, non-English text [y/N]
+5. Says different vendors' tokenizers 
+count the same text differently [y/N]
+6. Gives a number that's roughly right 
+(for example, 1,000 English words is 
+about 1,300 tokens by the ¾ rule, or 
+about 1,100 to 1,800 on today's 
+tokenizers) [y/N]
+Self-score: 6/6
+╭─ A strong answer ────────────────────╮
+│ A token is a chunk of text, a whole  │
+│ word or a piece of one, and it's the │
+│ unit models read, write and bill in. │
+│ Price is per million tokens, speed   │
+│ is tokens per second, and a model's  │
+│ size limit is a token count. By the  │
+│ classic ¾ rule, 1,000 English words  │
+│ is about 1,300 tokens, but the real  │
+│ count depends on the tokenizer:      │
+│ about 1,100 on OpenAI's and about    │
+│ 1,800 on Claude's. Rare words,       │
+│ numbers, code and many languages     │
+│ take more: on OpenAI's tokenizer the │
+│ same sentence is about 1.5× the      │
+│ tokens in Japanese and 2.1× in       │
+│ Hindi. So I'd measure our real text, │
+│ per language, before we set prices   │
+│ or usage limits.                     │
+╰──────────────────────────────────────╯
+Now say it out loud once more, in your 
+own words.
+Ch 2 · Step 17/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Follow-up: Why not just bill users per 
+word?
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: Your own costs
+are per token, and tokens per word vary 
+with language, content and tokenizer. 
+Billing per word means some users cost 
+you far more than they pay. Bill per 
+token, by usage tier, or per seat with 
+limits.
+Ch 2 · Step 18/18 · seed 2202   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+How was this chapter? Want to send 
+feedback? [y/N]

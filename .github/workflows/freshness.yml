@@ -1,0 +1,44 @@
+name: Freshness
+
+# Monthly: are prices and model ids still current? Opens (or comments on) one
+# GitHub issue when freshness.py finds something to re-verify.
+on:
+  schedule:
+    - cron: "23 7 1 * *" # 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check prices and watched dates
+        id: check
+        run: |
+          set +e
+          python3 freshness.py > report.md
+          code=$?
+          set -e
+          cat report.md
+          if [ "$code" -gt 1 ]; then exit "$code"; fi
+          echo "attention=$([ "$code" -eq 1 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+      - name: Open or update the freshness issue
+        if: steps.check.outputs.attention == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh label create freshness --color FBCA04 --description "Prices or model ids to re-verify" --force
+          existing=$(gh issue list --label freshness --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body-file report.md
+          else
+            gh issue create --title "Re-verify prices and model availability" --label freshness --body-file report.md
+          fi

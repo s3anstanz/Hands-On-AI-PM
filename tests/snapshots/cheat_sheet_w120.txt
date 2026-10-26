@@ -1,0 +1,100 @@
+Chapters in one line each
+
+1  An LLM writes one token at a time, picking from probabilities. Its knowledge ends at the training cutoff.
+2  Price, speed and limits are counted in tokens. Hindi takes 2.1× the tokens of English.
+3  Temperature changes the pick, not the facts. The newest Claude models fix it, so steer with prompts and checks.
+4  Hallucinations are fluent and false. Give the model the facts; temperature 0 won't fix them.
+5  Opus costs 40× Haiku per token. Route easy work to small models and commit with conditions.
+6  An output token costs 5× an input token. Always end on cost per user per month.
+7  Every request re-sends the whole context window (up to 1M tokens). The model has no memory.
+8  Cover user, requirements, model, settings, context, cost, risks and measurement. Then commit and name what would 
+change your mind.
+Cheat sheet + glossary · Page 1/6   [Enter] next  [b] back  [q] menu  [f] feedback
+Key numbers
+
+• One token ≈ 0.75 English words by OpenAI's rule of thumb, ≈ 0.555 on current Claude.
+• 1,000 words ≈ 1,333 tokens by the rule, ≈ 1,802 on current Claude.
+• An output token costs 5× an input token.
+• Cache reads cost 0.05× to 0.1× the input price. Writes 1.25× (5 min) or 2× (1 hour).
+• Batch: 50% off, for work nobody is waiting on.
+• Context window: up to 1M tokens on current Claude models.
+• Claude Opus 5.5: $4.00 in / $20.00 out per 1M tokens.
+• Claude Sonnet 5.5: $2.00 in / $10.00 out per 1M tokens.
+• Claude Haiku 5.5: $0.10 in / $0.50 out per 1M tokens. Prompts over 100K tokens cost 5× as much per token, for the 
+whole request.
+
+prices checked 2026-10-09
+Cheat sheet + glossary · Page 2/6   [Enter] next  [b] back  [q] menu  [f] feedback
+Glossary (1 of 4)
+
+API (Ch 1): How a product sends prompts to a model over the internet and gets responses back. Billed per use.
+batch (Ch 6): Sending many requests at once and collecting the answers later (within a day), at a discount. For work 
+nobody is waiting on.
+context window (Ch 7): Everything a model can see in one request: system prompt, history, documents and its own answer. 
+It has a hard limit in tokens.
+cost of goods sold (Ch 6): COGS: the direct cost of serving each customer. For an AI feature, the model bill is a big 
+part of it.
+effort (Ch 3): On the newest Claude models, sets how much the model thinks and spends (low to max). It doesn't control 
+randomness.
+evals (Ch 8): Tests for an AI feature: real examples with known good answers, run before launch and after every change 
+to measure quality.
+grounding (Ch 4): Putting the right facts, such as your documents or a patient's chart, in the prompt and telling the 
+model to answer only from them.
+hallucination (Ch 4): An answer that is fluent and confident but false.
+inference (Ch 1): The model answering one request. This is what products pay for, per token.
+input tokens (Ch 6): Everything you send the model in one request: system prompt, history, documents and the question. 
+Billed at the input price.
+job to be done (Ch 8): What the user is trying to get done, in their words. Design starts here, not with the model.
+Cheat sheet + glossary · Page 3/6   [Enter] next  [b] back  [q] menu  [f] feedback
+Glossary (2 of 4)
+
+knowledge cutoff (Ch 1): The date training data stops. The model doesn't know about anything after it unless the prompt 
+says so.
+large language model (Ch 1): A program trained on huge amounts of text to predict the next token. Usually shortened to 
+LLM.
+max_tokens (Ch 3): A cap on how long the answer can be, which also caps the output cost.
+model (Ch 1): The trained program itself, such as Claude Sonnet 5.5.
+output tokens (Ch 6): What the model writes back, including any thinking. Billed at the output price, which is several 
+times the input price.
+parameters (Ch 1): The billions of numbers a model learned in training: its stored knowledge and skill. More usually 
+means smarter, slower and pricier.
+probability (Ch 1): How likely the model rates a possible next token. All candidates' probabilities add up to 100%.
+prompt (Ch 1): The text you send to a model: instructions, a question, any documents.
+prompt caching (Ch 6): Reusing the repeated start of a prompt across requests. Cached reads cost a small fraction of the
+input price; writing the cache costs more than normal input, once.
+RAG (Ch 7): Retrieval-augmented generation: a search finds the relevant pieces, and the model answers from them.
+response (Ch 1): The text the model sends back. Also called a completion.
+retrieval (Ch 4): Searching your own documents first and putting the best matches in the prompt. Often called RAG 
+(Chapter 7).
+Cheat sheet + glossary · Page 4/6   [Enter] next  [b] back  [q] menu  [f] feedback
+Glossary (3 of 4)
+
+routing (Ch 5): Sending each request to the model that fits it: easy ones to a small model, hard ones to a large one.
+sampling (Ch 3): Choosing the next token from the model's probabilities.
+stop sequence (Ch 3): A string that ends the answer as soon as it appears.
+streaming speed (Ch 5): How fast the rest of the answer arrives once it starts, in tokens per second.
+system prompt (Ch 6): The product's standing instructions, sent with every request. The user doesn't see it, but you pay
+for it each time.
+temperature (Ch 3): A sampling setting. Low almost always picks the top token; high picks less likely tokens more often.
+It doesn't change what the model knows.
+thinking tokens (Ch 6): The reasoning a model writes before its answer. Billed as output, and can be longer than the 
+answer.
+time to first token (Ch 5): How long a user waits before the first piece of the answer appears.
+token (Ch 1): A chunk of text, often a whole common word or a piece of a longer one. Models read, write and bill in 
+tokens.
+tokenizer (Ch 2): The part that cuts text into tokens. Each company and model generation has its own, so token counts 
+for the same text differ.
+tool definitions (Ch 6): Descriptions of the tools a model may call (search, a calculator, your database), sent with 
+every request that offers them.
+Cheat sheet + glossary · Page 5/6   [Enter] next  [b] back  [q] menu  [f] feedback
+Glossary (4 of 4)
+
+tools (Ch 1): Abilities an app gives a model beyond writing text, such as searching the web. The app runs the tool and 
+puts the results in the prompt.
+top-k (Ch 3): Keeps only the k most likely tokens before the pick.
+top-p (Ch 3): Keeps the smallest set of tokens whose probabilities add up to p, then picks from those.
+training (Ch 1): The one-time, very expensive process where a model learns from huge amounts of text.
+unit economics (Ch 6): What one unit of use costs and earns: cost per request, then per user, then per month.
+vocabulary (Ch 2): The fixed set of tokens (whole words and word pieces) a model can read and write, typically 100K to 
+200K entries.
+Cheat sheet + glossary · Page 6/6   [Enter] next  [b] back  [q] menu  [f] feedback

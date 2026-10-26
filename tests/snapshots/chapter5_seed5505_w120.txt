@@ -1,0 +1,331 @@
+╭─ Small vs. large models: how to choose ──────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Question: "Small vs. large models: how do you choose?"                                                              │
+│                                                                                                                      │
+│  You'll answer this in your own words at the end of the chapter. The Recap at the end of the Learn section lists     │
+│  what a strong answer covers.                                                                                        │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 1/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 1 of 7 · Model families come in sizes ──────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Most AI companies sell a family of models in several sizes.                                                         │
+│  Claude has Haiku (small), Sonnet (medium) and Opus (large). OpenAI and Google sell small and large models too.      │
+│  Each size is a different point on a tradeoff.                                                                       │
+│                                                                                                                      │
+│  Think of it like: a delivery company with bikes, vans and trucks. The right one depends on the load.                │
+│                                                                                                                      │
+│  Why a PM cares: Model size is one of the most common AI product decisions, and one of the easiest to get wrong.     │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 2/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 2 of 7 · Quality, speed, cost: pick your balance ───────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Bigger models are usually better at hard reasoning and obscure facts. They are also slower and pricier.             │
+│  Per token, Opus costs about 40× as much as Haiku.                                                                   │
+│  Smaller models are fast and cheap, and often good enough for simple, well-defined jobs.                             │
+│  You rarely get all three at once.                                                                                   │
+│                                                                                                                      │
+│  Example: A model that writes excellent legal analysis is wasted on fixing typos.                                    │
+│                                                                                                                      │
+│  Why a PM cares: Every model choice gives up some quality, speed or cost. Decide which one this job can spare.       │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 3/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 3 of 7 · Two kinds of speed ────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Time to first token: how long before anything appears.                                                              │
+│  Streaming speed: how fast words arrive after that, in tokens per second.                                            │
+│  A model that reasons before answering starts slowly, even if it streams fast.                                       │
+│  Some models sell faster streaming at a higher price.                                                                │
+│                                                                                                                      │
+│  Think of it like: waiting for a table vs. how fast the food comes once you're seated.                               │
+│                                                                                                                      │
+│  Example: A chat reply is judged on how soon it starts. A report generated overnight is judged only on when it's     │
+│  done.                                                                                                               │
+│                                                                                                                      │
+│  Why a PM cares: Find out which one your users feel. Paying to speed up the other changes little they notice.        │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 4/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 4 of 7 · Routing ───────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Routing sends each request to the model that fits it: easy ones to a small model, hard ones to a large one.         │
+│  In many products most requests are easy, so most traffic can go to the cheap model.                                 │
+│  The router can be a simple rule, or a small model that sorts requests first.                                        │
+│                                                                                                                      │
+│  Example: A support assistant answers password resets with a small model and hands billing disputes to a large one.  │
+│                                                                                                                      │
+│  Why a PM cares: Routing can cut the bill a lot without users noticing, if the easy requests really are easy.        │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 5/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 5 of 7 · Full cost ─────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Token price is only part of the cost. Add the people who review and fix answers, retries when an answer fails, and  │
+│  engineering time.                                                                                                   │
+│  A cheaper model that needs more human fixing can cost more overall.                                                 │
+│                                                                                                                      │
+│  Example: A reviewer spending a few minutes fixing each bad draft can cost more than all the tokens.                 │
+│                                                                                                                      │
+│  Why a PM cares: Finance asks what the feature costs, not what a token costs. Count the people too.                  │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 6/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 6 of 7 · When not to use an LLM ────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  A simple rule or a database lookup is cheaper and faster than any model, and it can't make things up.               │
+│  Use one when the task has a single exact answer you can look up or compute.                                         │
+│                                                                                                                      │
+│  Example: Checking that an order number has 10 digits, or looking up an order's status, needs no model at all.       │
+│                                                                                                                      │
+│  Why a PM cares: "We don't need an LLM for this part" cuts cost and removes a way to be wrong.                       │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 7/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 7 of 7 · How to answer "it depends" ────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  "It depends" is a fine start but a weak answer.                                                                     │
+│  Start from the job: who uses it, how often it runs, and what a mistake costs. Say what the choice depends on, then  │
+│  commit.                                                                                                             │
+│  Template: "I'd use X because Y. I'd switch to Z if W."                                                              │
+│                                                                                                                      │
+│  Example: "I'd use Sonnet for drafting replies because quality matters and volume is moderate. I'd route simple      │
+│  questions to Haiku once we've measured that it handles them."                                                       │
+│                                                                                                                      │
+│  Why a PM cares: Your team needs a decision with conditions, not a survey of options.                                │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 8/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Recap ──────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  This chapter in 6 points. They're also what a strong answer to "Small vs. large models: how do you choose?"         │
+│  covers.                                                                                                             │
+│                                                                                                                      │
+│  • Start from the job: who uses it, how often it runs, and what a mistake costs.                                     │
+│  • Quality, speed and cost trade off: bigger models are better but slower and pricier (Opus costs about 40× Haiku    │
+│  per token).                                                                                                         │
+│  • Speed has two parts: time to first token and streaming speed.                                                     │
+│  • Route easy requests to a small model and hard ones to a large one. A rule or a small model does the sorting.      │
+│  • Count the full cost: human review, retries and engineering, not just tokens.                                      │
+│  • Commit with conditions: "I'd use X because Y. I'd switch to Z if W."                                              │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 9/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 1 (not graded)
+Users say the app feels slow before anything appears on screen. Which kind of speed is the problem?
+  1. Time to first token
+  2. Streaming speed
+  3. Neither: it's the network
+Your pick [1-3]
+Right. The wait before the first word is time to first token. Faster streaming wouldn't change it.
+Ch 5 · Step 10/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 2 (not graded)
+1M support tickets a day, each sorted into one of 5 categories. Which model do you try first?
+  1. The largest, to be safe
+  2. The smallest, moving up only if it isn't good enough
+  3. The medium one: always the safe middle
+Your pick [1-3]
+Not quite: it's 2. It's simple, high volume and easy to check. Start small, measure, and move up only where it falls 
+short.
+Reread Learn screen 4? [Y/n]
+╭─ 4 of 7 · Routing ───────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Routing sends each request to the model that fits it: easy ones to a small model, hard ones to a large one.         │
+│  In many products most requests are easy, so most traffic can go to the cheap model.                                 │
+│  The router can be a simple rule, or a small model that sorts requests first.                                        │
+│                                                                                                                      │
+│  Example: A support assistant answers password resets with a small model and hands billing disputes to a large one.  │
+│                                                                                                                      │
+│  Why a PM cares: Routing can cut the bill a lot without users noticing, if the easy requests really are easy.        │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Ch 5 · Step 11/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+Start from the job. Pick a size for each before you see any prices.
+
+1. Plan a tricky database migration with an engineer
+   1. small
+   2. medium
+   3. large
+Small, medium or large? [1-3]
+We'd start with large. Small is cheaper and faster, but would likely fall short here. Hard, multi-step reasoning that 
+runs rarely, so quality wins.
+
+2. Summarize a clinical note for the next doctor
+   1. small
+   2. medium
+   3. large
+Small, medium or large? [1-3]
+We'd start with medium. Small is cheaper and faster, but would likely fall short here. Not the hardest task, but 
+mistakes are costly. Test mid-size and keep a clinician checking.
+
+3. Draft replies to customer emails for an agent to send
+   1. small
+   2. medium
+   3. large
+Small, medium or large? [1-3]
+We'd start with medium. Small is cheaper and faster, but would likely fall short here. Good writing at volume, and a 
+person checks each draft.
+
+The job decides the size. Next: prices and speeds.
+What this shows: the job decides the size: start with who uses it, how often it runs and what a mistake costs (Learn 7).
+Ch 5 · Step 12/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+Price, quality and speed
+         Price per 1M tokens          
+┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━┓
+┃ Model            ┃  Input ┃ Output ┃
+┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━┩
+│ Haiku 5.5        │  $0.10 │  $0.50 │
+│ Sonnet 5.5       │  $2.00 │ $10.00 │
+│ Opus 5.5         │  $4.00 │ $20.00 │
+│ GPT-6 Astra      │ $10.00 │ $50.00 │
+│ Gemini 3.8 Flash │  $0.75 │  $3.75 │
+└──────────────────┴────────┴────────┘
+Real list prices (prices checked 2026-10-09).
+Haiku 5.5: Prompts over 100K tokens cost 5× as much per token, for the whole request.
+Gemini 3.8 Flash: Prices double on 2027-01-01 (to $1.50 / $7.50).
+   Ratings out of 5 (illustrative)    
+┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━┓
+┃ Model            ┃ Quality ┃ Speed ┃
+┡━━━━━━━━━━━━━━━━━━╇━━━━━━━━━╇━━━━━━━┩
+│ Haiku 5.5        │ ●●●○○   │ ●●●●● │
+│ Sonnet 5.5       │ ●●●●○   │ ●●●○○ │
+│ Opus 5.5         │ ●●●●●   │ ●●○○○ │
+│ GPT-6 Astra      │ ●●●●●   │ ●●○○○ │
+│ Gemini 3.8 Flash │ ●●●●○   │ ●●●●○ │
+└──────────────────┴─────────┴───────┘
+Relative ratings to show the tradeoff, not measurements.
+Per token, Opus 5.5 costs 40× Haiku 5.5. That gap is why routing matters.
+Within one size, pay more only for a measured win on your task, not for a reputation.
+What this shows: bigger models cost more per token, so picking a size is also picking a price (Learn 2).
+Ch 5 · Step 13/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+Two kinds of speed: a race
+Two made-up models write the same 400-token answer.
+Quick starter: first token after 0.5 s, then 50 tokens a second. Thinks first: thinks for 4 s, then 200 tokens a second,
+4× as fast.
+
+After 2 seconds:
+Quick starter ██████························ 75/400     
+ Thinks first ······························ thinking...
+
+After 6 seconds:
+Quick starter █████████████████████········· 275/400
+ Thinks first ██████████████████████████████ 400/400
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━┓
+┃ Model         ┃ First token ┃  Done ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━┩
+│ Quick starter │       0.5 s │ 8.5 s │
+│ Thinks first  │         4 s │   6 s │
+└───────────────┴─────────────┴───────┘
+Illustrative: two made-up models to show the shape, not measurements.
+In a chat, users feel the first token, so the quick starter feels faster even though it finishes later. For a report 
+nobody watches, only the finish matters.
+What this shows: time to first token and streaming speed are separate things to optimize (Learn 3).
+Ch 5 · Step 14/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+Predict the saving
+200,000 requests a day, each about 1,500 tokens in and 800 out.
+Everything on Opus 5.5: $132,000 a month.
+80% of the requests are easy enough for Haiku 5.5.
+  1. $102,960 a month
+  2. $128,700 a month
+  3. $25,740 a month
+  4. $105,600 a month
+Your prediction: how much does routing them save? [1-4]
+Right. You picked $102,960: 78% of the bill. Haiku 5.5 costs about 1/40 as much per request, so moving 80% of the 
+traffic saves nearly 80% of the bill.
+What this shows: routing the easy share to a small model saves nearly that share of the bill (Learn 4).
+prices checked 2026-10-09
+Ch 5 · Step 15/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+Routing calculator
+Same workload. Easy requests go to Haiku 5.5, the rest to Opus 5.5.
+┏━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┓
+┃ Easy share ┃ Per month ┃    Saved ┃
+┡━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━┩
+│         0% │  $132,000 │       $0 │
+│        50% │   $67,650 │  $64,350 │
+│        80% │   $29,040 │ $102,960 │
+│        95% │    $9,735 │ $122,265 │
+└────────────┴───────────┴──────────┘
+prices checked 2026-10-09
+Try your own easy share, in % [0-100, Enter to move on]
+This only holds if the small model handles those requests well. Measure that on real traffic first.
+What this shows: the saving grows with the easy share, as long as the easy requests really are easy (Learn 4).
+Ch 5 · Step 16/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+Fast mode on Opus 5.5 (research preview)
+Pay 2× the price for up to 2.5× faster streaming. It doesn't shorten the wait for the first token.
+The race models were made up. The Opus 5.5 timings below are a separate illustration.
+┏━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┓
+┃       Answer ┃ Standard ┃ Fast mode ┃
+┡━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━┩
+│    50 tokens │    2.8 s │     2.3 s │
+│ 1,000 tokens │   18.7 s │     8.7 s │
+└──────────────┴──────────┴───────────┘
+Times are illustrative. The speedup is the most fast mode offers.
+For this run's workload: $132,000 a month standard, $264,000 in fast mode (prices checked 2026-10-09).
+Worth it when someone is waiting on a long answer, like live coding help. Not worth it for short answers or background 
+jobs.
+What this shows: pay for speed only where users feel it (Learn 3).
+Ch 5 · Step 17/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+The full cost
+2,000 drafts a day, each about 3,000 tokens in and 600 out. Say Haiku 5.5 gets 12% of drafts wrong and Sonnet 5.5 4% 
+(illustrative rates).
+A person fixes each wrong draft: 6 minutes, at $60 an hour (illustrative). A person already reads every draft, so 
+finding bad ones adds nothing. Only fixing them costs extra.
+┏━━━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Per month   ┃ Haiku 5.5 ┃ Sonnet 5.5 ┃
+┡━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ Need fixing │       12% │         4% │
+│ Tokens      │       $36 │       $720 │
+│ Review      │   $43,200 │    $14,400 │
+│ Total       │   $43,236 │    $15,120 │
+└─────────────┴───────────┴────────────┘
+prices checked 2026-10-09. Error rates and the reviewer's hourly cost are illustrative.
+Haiku 5.5 is far cheaper per token, but costs 2.9× as much in total once review is counted. It would win only if its 
+error rate were below 4.2%, close to Sonnet 5.5's own 4%.
+Rule of thumb: the small model wins when its answers are nearly as good, or mistakes are cheap to catch. When a person 
+has to fix each mistake, quality wins. So start small and measure: the error rate tells you which side you're on.
+What this shows: count the people who fix mistakes, not just the tokens (Learn 5).
+Ch 5 · Step 18/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Small vs. large models: how to choose ──────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                      │
+│  Question: "Small vs. large models: how do you choose?"                                                              │
+│                                                                                                                      │
+│  Your turn.                                                                                                          │
+│                                                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Answer out loud, then type your answer in your own words. Stuck? Type h for a hint. (finish with an empty line)
+>
+>
+Ch 5 · Step 19/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Your answer ────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ It predicts the next token from probabilities, one at a time.                                                        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+A strong answer covers these. Did yours?
+1. Starts from the job: who uses it, how often it runs, and what a mistake costs [y/N]
+2. Names the quality, speed and cost tradeoff [y/N]
+3. Separates time to first token from streaming speed, if users wait on it [y/N]
+4. Routes easy requests to a small model and hard ones to a large model, and says how requests get sorted [y/N]
+5. Counts the full cost: human review or retries, not just tokens [y/N]
+6. Commits to a recommendation consistent with the rest of the answer, with the conditions that would change it [y/N]
+Self-score: 6/6
+╭─ A strong answer ────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ I start from the job: what users are doing, how many requests a day, and what one mistake costs. Quality, speed and  │
+│ cost trade off, and speed has two parts: time to first token, which users feel in a chat, and streaming speed, which │
+│ matters for long answers. Most traffic is easy, so I'd route easy requests to a small model like Haiku and hard ones │
+│ to Sonnet or Opus, with a simple rule or a small classifier doing the sorting. If 80% of requests are easy, that     │
+│ cuts the bill by nearly 80%. I'd count the full cost too, since a cheap model that needs more human fixing can cost  │
+│ more overall, and I'd keep exact-answer work like format checks out of the model. So for a support assistant I'd     │
+│ start with Haiku, route hard tickets to Sonnet, and move more traffic to Sonnet if the measured error rate on easy   │
+│ tickets goes above 5%.                                                                                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Now say it out loud once more, in your own words.
+Ch 5 · Step 20/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+Follow-up: Finance cuts your budget in half.
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: Find where the money goes first. Route more easy traffic to the small model, trim long prompts
+and answers, and check the full cost so savings don't come back as human review. Re-measure quality. If that's not 
+enough, say which features you'd scale back.
+Ch 5 · Step 21/21 · seed 5505   [Enter] next  [b] back  [q] menu  [f] feedback
+How was this chapter? Want to send feedback? [y/N]

@@ -1,0 +1,12 @@
+Copyright (c) 2026 Sean Schireson. All rights reserved.
+
+This repository and its contents are private and proprietary. No license is
+granted to use, copy, modify, or distribute any part of it without the
+copyright holder's written permission.
+
+Third-party material:
+- data/tiktoken/fb374d419588a4632f3f557e76b4b70aebbca790 is OpenAI's public
+  o200k_base encoding, bundled unmodified for offline use. It is published by
+  OpenAI for use with the tiktoken package (MIT License, Copyright (c) 2022
+  OpenAI, Shantanu Jain). See data/tiktoken/README.md.
+- Python dependencies are installed separately under their own licenses.

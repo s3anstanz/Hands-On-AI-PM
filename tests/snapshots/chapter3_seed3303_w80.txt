@@ -1,0 +1,355 @@
+╭─ Temperature: how the model picks ───────────────────────────────────────────╮
+│                                                                              │
+│  Question: "What does temperature do? When would you set it to 0?"           │
+│                                                                              │
+│  You'll answer this in your own words at the end of the chapter. The Recap   │
+│  at the end of the Learn section lists what a strong answer covers.          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 3 · Step 1/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 1 of 7 · From probabilities to a pick ──────────────────────────────────────╮
+│                                                                              │
+│  Chapter 1 showed that the model scores every possible next token.           │
+│  Choosing one is called sampling.                                            │
+│                                                                              │
+│  Example: For "The sky is ___": blue 62%, clear 18%, dark 12%. Sampling      │
+│  decides which one gets written.                                             │
+│                                                                              │
+│  Why a PM cares: Variety in answers comes from sampling, not from the model  │
+│  changing its mind.                                                          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 3 · Step 2/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 2 of 7 · Temperature: how adventurous the pick is ──────────────────────────╮
+│                                                                              │
+│  Temperature is a dial on sampling.                                          │
+│  Low: almost always the top token.                                           │
+│  High: less likely tokens get picked more often.                             │
+│                                                                              │
+│  Think of it like: ordering your usual dish vs. trying something new on the  │
+│  menu.                                                                       │
+│                                                                              │
+│  Example: The model divides its scores by the temperature before turning     │
+│  them into odds. Below 1 sharpens the odds, above 1 flattens them, and 0     │
+│  takes the top token.                                                        │
+│                                                                              │
+│  Why a PM cares: One setting decides whether your product sounds consistent  │
+│  or creative.                                                                │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 3 · Step 3/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 3 of 7 · What temperature does not do ──────────────────────────────────────╮
+│                                                                              │
+│  It doesn't change what the model knows or make answers more correct.        │
+│  It only changes how the model picks among options it already has.           │
+│                                                                              │
+│  Example: If the top answer is wrong, temperature 0 gives you that wrong     │
+│  answer every time (Chapter 4).                                              │
+│                                                                              │
+│  Why a PM cares: Don't use temperature to fix accuracy. Fix the inputs       │
+│  instead.                                                                    │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 3 · Step 4/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 4 of 7 · Top-k and top-p ───────────────────────────────────────────────────╮
+│                                                                              │
+│  Two ways to cut unlikely options before the pick.                           │
+│  Top-k keeps the k most likely tokens. You pick k: k = 2 keeps the top two.  │
+│  Top-p adds tokens from the top down until their odds reach p, then stops.   │
+│  You pick p: p = 90% means stop at 90%.                                      │
+│  You'll try both in "Cut the tail" later in this chapter.                    │
+│                                                                              │
+│  Example: Sky example, top-k = 2 keeps blue and clear. Top-p = 90%: blue     │
+│  62% is short of 90%; add clear, 80%, still short; add dark, 92%, so it      │
+│  stops. It keeps those three.                                                │
+│                                                                              │
+│  Why a PM cares: Both limit how odd an answer can get and keep some          │
+│  variety.                                                                    │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 3 · Step 5/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 5 of 7 · Other output controls ─────────────────────────────────────────────╮
+│                                                                              │
+│  max_tokens is a hard cap: the answer is cut off there, and that caps the    │
+│  output cost.                                                                │
+│  A stop sequence ends the answer when a chosen string appears.               │
+│                                                                              │
+│  Example: A product card shows a one-line summary. The prompt asks for one   │
+│  line, and a stop sequence at the line break ends the answer there.          │
+│  max_tokens is the safety net: if the model rambles anyway, it is cut off    │
+│  at the cap, so set it above the longest line you expect.                    │
+│                                                                              │
+│  Why a PM cares: You pay for every output token, so length is a cost lever.  │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 3 · Step 6/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 6 of 7 · Which setting fits which product ──────────────────────────────────╮
+│                                                                              │
+│  Low when the task has one right answer.                                     │
+│  Medium when some variety helps but the facts must stay the same.            │
+│  Higher when many answers are good and variety helps.                        │
+│                                                                              │
+│  Why a PM cares: Ask one question: does this task have one right answer?     │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+┏━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Temperature         ┃ When the task has        ┃ Examples                    ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ Low (0 to 0.3)      │ One right answer         │ Extraction, classification, │
+│                     │                          │ medical coding, SQL         │
+│ Medium (around 0.5) │ Some variety, same facts │ Customer replies            │
+│ Higher (0.7 to 1)   │ Many good answers        │ Brainstorming, marketing    │
+│                     │                          │ copy, product names         │
+└─────────────────────┴──────────────────────────┴─────────────────────────────┘
+Ch 3 · Step 7/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 7 of 7 · The newest models fix these settings ──────────────────────────────╮
+│                                                                              │
+│  Opus 5.5 doesn't accept a temperature at all. Sonnet 5.5 rejects anything   │
+│  but the default. Haiku 5.5 requires temperature 1 and rejects top-k.        │
+│  These models are steered with effort (low, medium, high, xhigh, max) and    │
+│  the prompt. Effort sets how much the model thinks and spends, not           │
+│  randomness.                                                                 │
+│  On models that accept it, use temperature near 0 for one-right-answer       │
+│  tasks and 0.7 to 1 for creative ones. On the newest models, get             │
+│  consistency from the prompt, examples, structured output and checks.        │
+│  Even temperature 0 isn't fully deterministic on the real API: the servers   │
+│  batch requests together, and tiny rounding differences can flip a close     │
+│  pick.                                                                       │
+│                                                                              │
+│  Why a PM cares: Your lever has moved from temperature to effort and prompt  │
+│  design. Spend your tuning time there.                                       │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 3 · Step 8/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Recap ──────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  This chapter in 6 points. They're also what a strong answer to "What does   │
+│  temperature do? When would you set it to 0?" covers.                        │
+│                                                                              │
+│  • Temperature reshapes the odds the model picks from.                       │
+│  • Low temperature is predictable. High is varied.                           │
+│  • On models that accept it, use near 0 for one-right-answer tasks like      │
+│  extraction or classification.                                               │
+│  • Use about 0.7 to 1 for creative tasks like brainstorming or marketing     │
+│  copy.                                                                       │
+│  • It doesn't make answers more correct; it only changes the pick.           │
+│  • Top-k and top-p trim unlikely options. The newest Claude models fix       │
+│  temperature, so consistency comes from the prompt, examples, structured     │
+│  output and checks.                                                          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 3 · Step 9/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 1 (not graded)
+You're extracting invoice totals. Low or high temperature?
+  1. Low
+  2. High
+  3. It doesn't matter
+Your pick [1-3]
+Right. One right answer means you want the top pick every time.
+Ch 3 · Step 10/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 2 (not graded)
+Your feature calls a model at temperature 0 on the real API. What does that 
+guarantee?
+  1. The same answer every time
+  2. The top pick each time, though answers can still vary slightly
+  3. The correct answer
+Your pick [1-3]
+Not quite: it's 2. Temperature 0 takes the top pick, but the servers batch 
+requests together, and tiny rounding differences can flip a close pick. The top 
+pick can also be wrong (Learn 3).
+Reread Learn screen 7? [Y/n]
+╭─ 7 of 7 · The newest models fix these settings ──────────────────────────────╮
+│                                                                              │
+│  Opus 5.5 doesn't accept a temperature at all. Sonnet 5.5 rejects anything   │
+│  but the default. Haiku 5.5 requires temperature 1 and rejects top-k.        │
+│  These models are steered with effort (low, medium, high, xhigh, max) and    │
+│  the prompt. Effort sets how much the model thinks and spends, not           │
+│  randomness.                                                                 │
+│  On models that accept it, use temperature near 0 for one-right-answer       │
+│  tasks and 0.7 to 1 for creative ones. On the newest models, get             │
+│  consistency from the prompt, examples, structured output and checks.        │
+│  Even temperature 0 isn't fully deterministic on the real API: the servers   │
+│  batch requests together, and tiny rounding differences can flip a close     │
+│  pick.                                                                       │
+│                                                                              │
+│  Why a PM cares: Your lever has moved from temperature to effort and prompt  │
+│  design. Spend your tuning time there.                                       │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 3 · Step 11/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+Predict the runs: guess how often the top token wins at a new temperature.
+Prompt: for i in range( ___
+
+The odds as trained (temperature 1)
+ 10 ████████████·················· 40%
+len █████████····················· 31%
+  5 █████························· 15%
+  n ████·························· 14%
+Illustrative odds, computed with the same math real models use.
+Your prediction (an estimate, not graded): at temperature 0.8, how many of 20 
+runs say '10'? [0-20]
+
+At temperature 0.8: 20 runs
+ 10 ███████████··················· 7×
+len █████████····················· 6×
+  5 ████████······················ 5×
+  n ███··························· 2×
+'10' came up 7 of 20 times. You guessed 7. Its odds are now 44%, and odds times 
+runs gives the typical count: 44% of 20 is about 9. Any 20 runs vary a little, 
+so a guess near that is a good one.
+What this shows: temperature 0.8 reshapes the odds, not what the model knows 
+(Learn 2).
+Ch 3 · Step 12/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+Turn the dial on: for i in range( ___
+Try 0, 0.3, 1 and 2 and watch the bars.
+Claude's API takes 0 to 1 on models that accept a temperature. Some other 
+providers go up to 2. Here, values above 1 exaggerate the effect.
+Temperature [0-2, Enter to move on]
+
+At temperature 0.3
+ 10 ████████████████████·········· 67%
+len █████████····················· 28%
+  5 █·····························  3%
+  n █·····························  2%
+Illustrative odds, computed with the same math real models use.
+Temperature [0-2, Enter to move on]
+What this shows: low temperature sharpens the odds, high flattens them (Learn 
+2).
+Ch 3 · Step 13/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+Your prediction: at temperature 0, how many different answers appear in 20 runs 
+of 'for i in range( ___'? (Count each answer once, the top one included.) [1-20]
+
+At temperature 0: 20 runs
+ 10 ██████████████████████████████ 20×
+len ······························  0×
+  n ······························  0×
+  5 ······························  0×
+Illustrative odds, computed with the same math real models use.
+1 different answer in 20 runs. You guessed 1. That's the ideal case. The real 
+API can still vary slightly at 0: the servers batch requests together, and tiny 
+rounding differences can flip a close pick.
+What this shows: temperature 0 always takes the top token, right or wrong (Learn
+3 and 7).
+Ch 3 · Step 14/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+Cut the tail: see which options top-k and top-p remove before the pick.
+
+Top-k = 2 on: for i in range( ___
+ 10 ████████████·················· 40%
+len █████████····················· 31%
+  5 █████························· 15%
+  n ████·························· 14%
+Top-k = 2 keeps: 10, len · cut: 5, n
+
+Top-p = 0.9 on: for i in range( ___
+ 10 ████████████·················· 40%
+len █████████····················· 31%
+  5 █████························· 15%
+  n ████·························· 14%
+Top-p = 0.9 keeps: 10, len, 5, n
+Here top-p = 0.9 keeps every word, because it takes all of them to reach 90%. 
+The odds don't change.
+
+Top-p = 0.9: 20 runs
+ 10 ██████████████················ 9×
+len ██████························ 4×
+  n ██████························ 4×
+  5 █████························· 3×
+Illustrative odds, computed with the same math real models use.
+What this shows: top-k and top-p cut unlikely options before the pick (Learn 4).
+Ch 3 · Step 15/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+Pick the setting for each product. Go with your gut.
+
+1. Write a SQL query from a question
+   1. low
+   2. medium
+   3. high
+Low, medium or high temperature? [1-3]
+Same as ours: You want the same, tested query every time.
+
+2. Draft three versions of an ad headline
+   1. low
+   2. medium
+   3. high
+Low, medium or high temperature? [1-3]
+We'd pick high: You want options that differ from each other.
+
+3. Write a friendly reply to a customer
+   1. low
+   2. medium
+   3. high
+Low, medium or high temperature? [1-3]
+We'd pick medium: Some variety keeps it natural. The facts come from the prompt,
+not the setting.
+
+4. Summarize a meeting for the team
+   1. low
+   2. medium
+   3. high
+Low, medium or high temperature? [1-3]
+Same as ours: A summary should stick to what was said.
+What this shows: the setting follows from whether the task has one right answer 
+(Learn 6).
+Ch 3 · Step 16/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+max_tokens = 12
+Our refund policy lets you return any item within 30 days ▌ (cut off: the answer
+stops mid-sentence)
+You pay for 12 output tokens instead of 39. Counted with OpenAI's public 
+tokenizer (GPT-4o / GPT-5 era).
+
+Stop sequence = a new line
+Answer: Paris ▌ (stopped at the line break)
+Use both when a feature only needs a short answer.
+What this shows: length is a cost lever, separate from temperature (Learn 5).
+Ch 3 · Step 17/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+Live extra (needs an Anthropic key): send 'The sky is' to a real model 20 times,
+half at temperature 0 and half at 1. See README, Live mode.
+Ch 3 · Step 18/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Temperature: how the model picks ───────────────────────────────────────────╮
+│                                                                              │
+│  Question: "What does temperature do? When would you set it to 0?"           │
+│                                                                              │
+│  Your turn.                                                                  │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Answer out loud, then type your answer in your own words. Stuck? Type h for a 
+hint. (finish with an empty line)
+>
+>
+Ch 3 · Step 19/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Your answer ────────────────────────────────────────────────────────────────╮
+│ It predicts the next token from probabilities, one at a time.                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+A strong answer covers these. Did yours?
+1. Says temperature reshapes the probability distribution the model picks from 
+(or: changes how random or spread out the picks are) [y/N]
+2. Says low temperature is predictable and high temperature is varied (both 
+ends) [y/N]
+3. Says to set it near 0 for one-right-answer tasks like extraction or 
+classification, on models that accept it [y/N]
+4. Says to set it higher, about 0.7 to 1, for creative tasks [y/N]
+5. Says temperature doesn't make answers more correct [y/N]
+6. Names top-p or top-k and says it trims unlikely options, or says the newest 
+Claude models fix temperature, so consistency comes from the prompt, examples, 
+structured output and checks [y/N]
+Self-score: 6/6
+╭─ A strong answer ────────────────────────────────────────────────────────────╮
+│ Temperature reshapes the odds the model picks from without changing what it  │
+│ knows: low makes the top pick win almost every time, high gives less likely  │
+│ tokens more chances. It doesn't make answers more correct, and even 0 isn't  │
+│ fully deterministic on a real API. Top-p and top-k trim unlikely options     │
+│ before the pick. On the newest Claude models you can't set it, so I'd get    │
+│ consistency from the prompt, examples and structured output. On a model that │
+│ accepts it, I'd start at 0 for extraction and about 0.7 for ad copy, and     │
+│ check with a small eval.                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Now say it out loud once more, in your own words.
+Ch 3 · Step 20/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+Follow-up: Marketing says the copy is boring. What do you change?
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: On a model that allows it, raise temperature, or ask 
+for several options and pick the best. On the newest Claude models, change the 
+prompt: ask for bolder variations and give examples of the tone you want.
+Ch 3 · Step 21/21 · seed 3303   [Enter] next  [b] back  [q] menu  [f] feedback
+How was this chapter? Want to send feedback? [y/N]

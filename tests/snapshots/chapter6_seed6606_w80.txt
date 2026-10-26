@@ -1,0 +1,375 @@
+╭─ Cost at scale: what drives the bill ────────────────────────────────────────╮
+│                                                                              │
+│  Question: "How do costs change as you scale?"                               │
+│                                                                              │
+│  You'll answer this in your own words at the end of the chapter. The Recap   │
+│  at the end of the Learn section lists what a strong answer covers.          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 1/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 1 of 8 · How you're billed ─────────────────────────────────────────────────╮
+│                                                                              │
+│  Prices are per million tokens. Input tokens (what you send) and output      │
+│  tokens (what comes back) have separate prices.                              │
+│  On Claude models, an output token costs 5× as much as an input token.       │
+│                                                                              │
+│  Example: One request on Claude Sonnet 5.5: 2,000 tokens in, 500 out. Input  │
+│  costs $0.0040, output $0.0050, total $0.0090. Output is 20% of the tokens   │
+│  but 56% of the cost (prices checked 2026-10-09).                            │
+│                                                                              │
+│  Why a PM cares: Output tokens cost more, so answer length is one of your    │
+│  biggest cost levers.                                                        │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 2/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 2 of 8 · Hidden tokens ─────────────────────────────────────────────────────╮
+│                                                                              │
+│  Every request also carries the system prompt (the product's standing        │
+│  instructions) and any tool definitions (descriptions of the tools the       │
+│  model may call).                                                            │
+│  Users never see them, but you pay for them on every request.                │
+│                                                                              │
+│  Think of it like: fine print stapled to every letter: nobody reads it, but  │
+│  it adds to the postage.                                                     │
+│                                                                              │
+│  Example: A support bot with a 1,500-token system prompt and 100,000         │
+│  messages a day sends 150 million input tokens a day before anyone types a   │
+│  word.                                                                       │
+│                                                                              │
+│  Why a PM cares: Trimming a bloated system prompt is one of the cheapest     │
+│  savings available.                                                          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 3/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 3 of 8 · Chat history is re-sent every turn ────────────────────────────────╮
+│                                                                              │
+│  The model has no memory between requests (more in Chapter 7). To continue   │
+│  a chat, the app sends the whole conversation again.                         │
+│  So turn 10 re-sends turns 1 to 9, plus the system prompt. Long chats cost   │
+│  far more than their length suggests.                                        │
+│                                                                              │
+│  Example: Turn 1 sends one message. Turn 10 sends nineteen: your ten and     │
+│  the model's nine replies.                                                   │
+│                                                                              │
+│  Why a PM cares: Plan for long chats: summarize old turns, cap the history,  │
+│  or cache it.                                                                │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 4/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 4 of 8 · Prompt caching ────────────────────────────────────────────────────╮
+│                                                                              │
+│  When the start of a prompt repeats across requests, the provider can keep   │
+│  it ready instead of reading it from scratch. That's prompt caching.         │
+│  Reading from the cache costs a fraction of the input price: 0.05× on Opus   │
+│  5.5 and Sonnet 5.5, 0.1× on Haiku 5.5.                                      │
+│  Writing to the cache costs extra, once: 1.25× the input price for a         │
+│  5-minute cache, 2× for a 1-hour cache.                                      │
+│                                                                              │
+│  Think of it like: a kitchen prepping the ingredients every dish uses.       │
+│                                                                              │
+│  Why a PM cares: Cache the long system prompt or shared document that every  │
+│  request repeats.                                                            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 5/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 5 of 8 · Batch ─────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  Work nobody is waiting on can go through the batch API. You send many       │
+│  requests at once and collect the answers later, within a day.               │
+│  On Claude models, batch costs 50% less, for input and output.               │
+│                                                                              │
+│  Example: Overnight summaries of yesterday's tickets, or tags for a backlog  │
+│  of documents.                                                               │
+│                                                                              │
+│  Why a PM cares: If no user is waiting on the answer, you're probably        │
+│  overpaying by not batching.                                                 │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 6/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 6 of 8 · Thinking tokens ───────────────────────────────────────────────────╮
+│                                                                              │
+│  Reasoning models can "think" before they answer, writing steps the user     │
+│  may never see. These thinking tokens are billed as output, at the output    │
+│  price.                                                                      │
+│  The thinking can be longer than the answer.                                 │
+│                                                                              │
+│  Example: A 300-token answer that took 2,000 tokens of thinking is billed    │
+│  as 2,300 output tokens.                                                     │
+│                                                                              │
+│  Why a PM cares: Higher effort (Chapter 3) means more thinking tokens. Use   │
+│  it where better answers pay for it.                                         │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 7/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 7 of 8 · The temperature myth ──────────────────────────────────────────────╮
+│                                                                              │
+│  Temperature doesn't change the price per token. Temperature 0 costs the     │
+│  same per token as 1.                                                        │
+│  It affects the bill only if it changes how long the answers are.            │
+│                                                                              │
+│  Why a PM cares: When someone suggests lowering temperature to save money,   │
+│  point them to caching, batch and shorter answers.                           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 8/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 8 of 8 · Unit economics ────────────────────────────────────────────────────╮
+│                                                                              │
+│  Work up from one request to cost per user, then per month. That chain is    │
+│  the feature's unit economics.                                               │
+│  The AI bill is part of cost of goods sold (COGS): what it costs to serve    │
+│  each customer. A CFO will ask for it.                                       │
+│                                                                              │
+│  Example: $0.0090 a request × 20 requests a day × 30 days = $5.40 per user   │
+│  per month on Claude Sonnet 5.5 (prices checked 2026-10-09).                 │
+│                                                                              │
+│  Why a PM cares: Cost per user next to revenue per user shows whether the    │
+│  feature pays for itself.                                                    │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 9/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Recap ──────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  This chapter in 6 points. They're also what a strong answer to "How do      │
+│  costs change as you scale?" covers.                                         │
+│                                                                              │
+│  • Input and output tokens have separate prices. On Claude models, an        │
+│  output token costs 5× as much as an input token.                            │
+│  • Hidden tokens add up: the system prompt and tool definitions ride along   │
+│  on every request.                                                           │
+│  • Chat history is re-sent every turn, so long chats cost far more than      │
+│  their length suggests.                                                      │
+│  • The levers: cache what repeats and batch what can wait, route easy        │
+│  requests to a smaller model, and keep answers short.                        │
+│  • Always get to a number: cost per request, per user, per month.            │
+│  • Temperature doesn't change the price per token.                           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 10/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 1 (not graded)
+A request sends 1,000 tokens and gets 1,000 tokens back. Which half of the bill 
+is bigger?
+  1. The input: prompts are the bigger part of the bill
+  2. Neither: the same number of tokens costs the same
+  3. The output
+Your pick [1-3]
+Not quite: it's 3. An output token costs 5× as much as an input token on Claude 
+models, so equal counts don't mean equal cost. Input often dominates real bills 
+only because prompts are much longer.
+Reread Learn screen 1? [Y/n]
+╭─ 1 of 8 · How you're billed ─────────────────────────────────────────────────╮
+│                                                                              │
+│  Prices are per million tokens. Input tokens (what you send) and output      │
+│  tokens (what comes back) have separate prices.                              │
+│  On Claude models, an output token costs 5× as much as an input token.       │
+│                                                                              │
+│  Example: One request on Claude Sonnet 5.5: 2,000 tokens in, 500 out. Input  │
+│  costs $0.0040, output $0.0050, total $0.0090. Output is 20% of the tokens   │
+│  but 56% of the cost (prices checked 2026-10-09).                            │
+│                                                                              │
+│  Why a PM cares: Output tokens cost more, so answer length is one of your    │
+│  biggest cost levers.                                                        │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 6 · Step 11/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 2 (not graded)
+Your AI bill doubled after launch. Which change cuts it without changing the 
+model?
+  1. Cache the long system prompt every request repeats
+  2. Lower the temperature to 0
+  3. Raise max_tokens so answers finish properly
+Your pick [1-3]
+Right. Cached reads cost a fraction of normal input. Temperature doesn't change 
+the price per token, and a higher max_tokens only allows longer, pricier 
+answers.
+Ch 6 · Step 12/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+Input vs. output
+Your scenario this run: Coding assistant. An assistant in the code editor that 
+explains and writes code for a company's developers. The usage numbers are 
+illustrative; the prices are real.
+A typical request: 27,000 tokens in, 1,300 out. Cost of 1,000 of them on Claude 
+Sonnet 5.5:
+
+         Tokens   Per 1M   Per 1,000
+────────────────────────────────────
+Input    27,000    $2.00      $54.00
+Output    1,300   $10.00      $13.00
+Total    28,300               $67.00
+prices checked 2026-10-09
+Output is 5% of the tokens and 19% of the cost.
+What this shows: an output token costs 5× as much as an input token, so answer 
+length moves the bill more than its share of tokens suggests (Learn 1).
+Ch 6 · Step 13/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+Chat history adds up
+Coding assistant (illustrative usage): 19,000 tokens of fixed text (system 
+prompt and the like), and about 1,300 tokens per message, from the user or the 
+model.
+Your prediction: a 10-turn chat costs how many times a single-turn chat? [1-100]
+
+Input tokens sent on each turn of a 10-turn chat:
+Turn 1  █████████████████░░                      20,300
+Turn 2  █████████████████▒▒▒░                    22,900
+Turn 3  █████████████████▒▒▒▒▒░                  25,500
+Turn 4  █████████████████▒▒▒▒▒▒▒▒░               28,100
+Turn 5  █████████████████▒▒▒▒▒▒▒▒▒▒░             30,700
+Turn 6  █████████████████▒▒▒▒▒▒▒▒▒▒▒▒░           33,300
+Turn 7  █████████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░        35,900
+Turn 8  █████████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░      38,500
+Turn 9  █████████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░   41,100
+Turn 10 █████████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░ 43,700
+█ fixed text  ▒ earlier messages  ░ new message
+On Claude Sonnet 5.5, 1,000 chats of 10 turns cost $770.00, and 1,000 
+single-turn chats cost $53.60. That's 14× the cost for 10× the messages.
+You guessed 5×; actual 14×; off by 9×.
+Twice as long (20 turns) costs 2.7× as much as 10 turns, not 2×. Each turn 
+re-sends everything before it, so cost grows faster than length.
+prices checked 2026-10-09
+What this shows: every turn re-sends the whole chat, so cost grows faster than 
+turns (Learn 3).
+Ch 6 · Step 14/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+When does caching pay off?
+Writing to the cache costs more than reading the same tokens normally, so 
+caching pays off only after enough reuse. The fewest uses where caching wins:
+Model        5-min cache   1-hour cache
+───────────────────────────────────────
+Opus 5.5          2 uses         3 uses
+Sonnet 5.5        2 uses         3 uses
+Haiku 5.5         2 uses         3 uses
+Coding assistant (illustrative usage): the 19,000 tokens every request repeats 
+go out 20,580 times a day. On Claude Sonnet 5.5 that costs $782.04 a day 
+uncached and $39.15 cached: one write, then reads, if steady traffic keeps the 
+cache warm.
+prices checked 2026-10-09
+What this shows: a 5-minute cache pays for its write after 2 uses, so cache any 
+prompt start that every request repeats (Learn 4).
+Ch 6 · Step 15/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+Caching or batch?
+Coding assistant (illustrative usage): 20,580 requests a day, 27,000 tokens in 
+(the first 19,000 the same every time), 1,300 out.
+  1. Caching the repeated start
+  2. Batch (50% off, answers later)
+  3. About the same
+Your prediction: which saves more here? [1-3]
+
+Per month on Claude Sonnet 5.5:
+No discount ██████████████████████████████ $41,365.80
+Caching     ██████████████················ $19,077.66
+Batch       ███████████████··············· $20,682.90
+prices checked 2026-10-09
+Caching saves $22,288.14 a month; batch saves $20,682.90.
+You predicted caching the repeated start; actual: about the same. Close: the two
+are within 10% of each other.
+What this shows: caching pays most when a big shared start repeats. Batch takes 
+50% off everything, but only for work nobody is waiting on. You can use both 
+(Learn 4 and 5).
+Ch 6 · Step 16/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+Cost calculator
+Starting numbers: Coding assistant (illustrative usage). Change any line and 
+every model's bill updates. Cache-hit % starts at the share of input that every 
+request repeats.
+1. Requests per day            20,580
+2. Input tokens per request    27,000
+3. Output tokens per request    1,300
+4. Cache-hit % of input           70%
+5. Batch                          off
+6. Thinking tokens per request      0
+
+Per month (30 days):
+Opus 5.5         ███████████···················  $38,389.93
+Sonnet 5.5       ██████························  $19,194.97
+Haiku 5.5        ······························   $1,018.09
+Haiku 4.5        ███···························  $10,180.93
+GPT-6 Astra      ██████████████████████████████ $101,809.26
+GPT-6 Luna       ······························   $1,018.09
+Gemini 3.1 Pro   ██████························  $21,967.09
+Gemini 3.8 Flash ██····························   $7,635.69
+Caching minimums aren't modeled for OpenAI and Google models.
+Haiku 5.5: Prompts over 100K tokens cost 5× as much per token, for the whole 
+request.
+Haiku 4.5: Legacy model, used only for the live temperature demo.
+Gemini 3.1 Pro: Preview model. Cache storage is billed separately ($4.50 per 1M 
+tokens per hour).
+Gemini 3.8 Flash: Prices double on 2027-01-01 (to $1.50 / $7.50).
+On Claude Sonnet 5.5: $31.09 per 1,000 requests, $45.70 per user per month (420 
+daily users).
+prices checked 2026-10-09
+Change which line? [1-6, Enter to move on]
+What this shows: the same workload costs 100× as much on the priciest model as 
+on the cheapest, so model choice (Chapter 5) is a cost lever too.
+Ch 6 · Step 17/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+Crossing providers
+The calculator used one token count for every model, but tokenizers differ. All 
+six of Chapter 2's sample paragraphs, 191 words, are 210 tokens on OpenAI's 
+public tokenizer (GPT-4o / GPT-5 era) and about 396 on Claude (estimate: 
+Claude's tokenizer isn't public).
+Coding assistant (illustrative usage): 27,000 tokens in and 1,300 out per 
+request on Claude are about 14,318 and 689 on OpenAI's tokenizer.
+
+The same requests per month, with no caching or batch. Google's tokenizer isn't 
+bundled, so the Gemini rows (†) use the OpenAI count:
+Model               Tokens     Per month
+────────────────────────────────────────
+Sonnet 5.5          27,000    $41,365.80
+Haiku 5.5           27,000     $2,068.29
+GPT-6 Astra         14,318   $109,668.76
+GPT-6 Luna          14,318     $1,096.69
+Gemini 3.1 Pro†     14,318    $22,784.53
+Gemini 3.8 Flash†   14,318     $8,225.16
+† OpenAI's count, as a stand-in for Google's.
+Haiku 5.5: Prompts over 100K tokens cost 5× as much per token, for the whole 
+request.
+Gemini 3.1 Pro: Preview model. Cache storage is billed separately ($4.50 per 1M 
+tokens per hour).
+Gemini 3.8 Flash: Prices double on 2027-01-01 (to $1.50 / $7.50).
+prices checked 2026-10-09
+What this shows: tokenizers count the same text differently, so compare the cost
+of your own text, not the price per token (Chapter 2).
+Ch 6 · Step 18/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Cost at scale: what drives the bill ────────────────────────────────────────╮
+│                                                                              │
+│  Question: "How do costs change as you scale?"                               │
+│                                                                              │
+│  Your turn.                                                                  │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Answer out loud, then type your answer in your own words. Stuck? Type h for a 
+hint. (finish with an empty line)
+>
+>
+Ch 6 · Step 19/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Your answer ────────────────────────────────────────────────────────────────╮
+│ It predicts the next token from probabilities, one at a time.                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+A strong answer covers these. Did yours?
+1. Says output tokens cost more per token than input tokens [y/N]
+2. Names at least one hidden cost sent with every request: the system prompt, 
+tool definitions or chat history [y/N]
+3. Says chat history is re-sent every turn, so long chats cost 
+disproportionately more [y/N]
+4. Names at least two levers: caching, batch, a smaller model, shorter answers 
+[y/N]
+5. Puts a number on it: cost per request, per user or per month [y/N]
+6. Says temperature doesn't change the price per token [y/N]
+Self-score: 6/6
+╭─ A strong answer ────────────────────────────────────────────────────────────╮
+│ Costs scale with tokens, and input and output are priced separately: on      │
+│ Claude, an output token costs 5× as much as an input token, so answer length │
+│ matters. Every request also carries hidden tokens, like the system prompt    │
+│ and tool definitions, and a chat re-sends its whole history every turn, so   │
+│ long conversations cost far more than their length suggests. Temperature     │
+│ isn't a lever, since it doesn't change the price per token. To get a number, │
+│ I go from cost per request to cost per user per month: tokens times price,   │
+│ times requests per user, times 30 days. Then I'd cache what repeats and      │
+│ batch what can wait, and route easy traffic to a smaller model.              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Now say it out loud once more, in your own words.
+Ch 6 · Step 20/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+Follow-up: A competitor's model is half the price per token. Do you switch?
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: Not on price per token alone. Tokenizers differ, so 
+run your real traffic through both and compare cost per request, then quality, 
+speed and the cost of reviewing mistakes. Switch if it's cheaper on your own 
+text and good enough on your own test cases.
+Ch 6 · Step 21/21 · seed 6606   [Enter] next  [b] back  [q] menu  [f] feedback
+How was this chapter? Want to send feedback? [y/N]

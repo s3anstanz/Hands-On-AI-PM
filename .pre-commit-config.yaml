@@ -1,0 +1,58 @@
+# Local guardrails. Install once:  uv run pre-commit install
+# Commit: secrets scan, lint/format, hygiene. Push: refuse main, run the tests.
+default_install_hook_types: [pre-commit, pre-push]
+default_stages: [pre-commit]
+# The bundled tokenizer is a generated data file: never rewrite or scan its whitespace.
+exclude: ^data/tiktoken/fb374d419588a4632f3f557e76b4b70aebbca790$
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: 83d9cd684c87d95d656c1458ef04895a7f1cbd8e # frozen: v8.30.1
+    hooks:
+      - id: gitleaks # GitHub can't scan private repos on this plan, so this is the line of defense
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: 44b5042edab9382aba712eed4f9c7bab7a3d6a3e # frozen: v0.17.0 (keep in step with pyproject.toml)
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c # frozen: v6.0.0
+    hooks:
+      - id: no-commit-to-branch # work on a branch; main changes only through PRs
+        args: [--branch, main]
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: check-toml
+      - id: end-of-file-fixer
+        exclude: ^(docs/|tests/snapshots/) # snapshots are exact terminal output
+      - id: trailing-whitespace
+        exclude: ^(docs/|tests/snapshots/)
+
+  - repo: local
+    hooks:
+      - id: requirements-in-sync
+        name: requirements*.txt match uv.lock
+        entry: scripts/sync-requirements.sh
+        language: script
+        files: ^(pyproject\.toml|uv\.lock)$
+        pass_filenames: false
+      - id: no-push-to-main
+        name: refuse direct pushes to main (use a PR)
+        entry: scripts/hooks/no-push-to-main.sh
+        language: script
+        stages: [pre-push]
+        always_run: true
+        pass_filenames: false
+      - id: pytest
+        name: tests
+        entry: uv run pytest -q
+        language: system
+        stages: [pre-push]
+        always_run: true
+        pass_filenames: false

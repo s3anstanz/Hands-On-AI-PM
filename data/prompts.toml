@@ -1,0 +1,193 @@
+# Illustrative next-token odds. Weights are relative; they're normalized at load.
+# Add your own: copy a [[prompt]] block. Needs 3+ candidates with positive weights.
+# Chains (continuation) must have one clear top candidate at every step, should give
+# Chapter 1's demo 5-8 steps in total, and shouldn't reuse a prompt the Learn screens
+# show (like "The sky is"), or the demo's guesses are given away.
+
+[[prompt]]
+text = "The sky is"
+tag = "everyday"
+tokens = { "blue" = 62, "clear" = 18, "dark" = 12, "gray" = 6, "ugly" = 2 }
+
+[[prompt]]
+text = "Thank you so much for"
+tag = "everyday"
+tokens = { "your" = 40, "the" = 30, "everything" = 15, "coming" = 10, "nothing" = 5 }
+continuation = [
+  { "help" = 50, "time" = 25, "support" = 15, "patience" = 10 },
+  { "with" = 42, "." = 30, "today" = 16, "!" = 12 },
+  { "the" = 48, "this" = 30, "my" = 14, "our" = 8 },
+  { "project" = 40, "move" = 25, "launch" = 20, "report" = 15 },
+  { "." = 62, "!" = 20, "today" = 12, "," = 6 },
+]
+
+[[prompt]]
+text = "The patient was prescribed"
+tag = "medical"
+tokens = { "a" = 35, "antibiotics" = 25, "the" = 20, "medication" = 12, "rest" = 8 }
+continuation = [
+  { "course" = 40, "daily" = 22, "low" = 20, "new" = 18 },
+  { "of" = 85, "." = 6, "for" = 5, "to" = 4 },
+  { "antibiotics" = 55, "steroids" = 20, "treatment" = 15, "physical" = 10 },
+  { "for" = 45, "." = 30, "to" = 15, "after" = 10 },
+  { "the" = 40, "an" = 30, "a" = 20, "her" = 10 },
+  { "infection" = 60, "pneumonia" = 20, "wound" = 12, "symptoms" = 8 },
+  { "." = 80, "," = 10, "and" = 6, "!" = 4 },
+]
+
+[[prompt]]
+text = "Our quarterly revenue"
+tag = "business"
+tokens = { "grew" = 42, "increased" = 26, "was" = 18, "fell" = 9, "missed" = 5 }
+continuation = [
+  { "by" = 60, "12%" = 15, "faster" = 15, "steadily" = 10 },
+  { "12%" = 35, "8%" = 25, "double" = 20, "20%" = 20 },
+  { "year" = 40, "," = 25, "." = 20, "compared" = 15 },
+  { "over" = 80, "-" = 10, "on" = 6, "to" = 4 },
+  { "year" = 85, "last" = 8, "quarter" = 5, "time" = 2 },
+  { "." = 70, "," = 20, "and" = 7, "!" = 3 },
+]
+
+[[prompt]]
+text = "def add(a, b):"
+tag = "code"
+tokens = { "return" = 70, "#" = 12, "print" = 8, "sum" = 6, "pass" = 4 }
+
+[[prompt]]
+text = "I'd like a cup of"
+tag = "everyday"
+tokens = { "coffee" = 55, "tea" = 30, "water" = 8, "hot" = 5, "joe" = 2 }
+continuation = [
+  { "with" = 40, "," = 25, "please" = 20, "." = 15 },
+  { "milk" = 50, "sugar" = 25, "cream" = 15, "oat" = 10 },
+  { "," = 45, "and" = 25, "." = 20, "please" = 10 },
+  { "please" = 60, "thanks" = 20, "if" = 12, "and" = 8 },
+  { "." = 75, "!" = 15, "," = 6, "and" = 4 },
+]
+
+[[prompt]]
+text = "The meeting has been moved to"
+tag = "work"
+tokens = { "Monday" = 37, "tomorrow" = 21, "Friday" = 18, "next" = 16, "Thursday" = 8 }
+
+[[prompt]]
+text = "Once upon a"
+tag = "story"
+tokens = { "time" = 92, "midnight" = 4, "dream" = 2, "hill" = 2 }
+
+[[prompt]]
+text = "The best way to learn is by"
+tag = "everyday"
+tokens = { "doing" = 70, "practicing" = 12, "teaching" = 10, "reading" = 5, "failing" = 3 }
+
+[[prompt]]
+text = "The stock market"
+tag = "business"
+tokens = { "fell" = 38, "rose" = 22, "closed" = 20, "is" = 14, "crashed" = 6 }
+
+[[prompt]]
+text = "My favorite season is"
+tag = "everyday"
+tokens = { "fall" = 40, "summer" = 30, "spring" = 18, "winter" = 12 }
+
+[[prompt]]
+text = "Please take two tablets"
+tag = "medical"
+tokens = { "daily" = 35, "twice" = 25, "with" = 22, "every" = 12, "by" = 6 }
+
+[[prompt]]
+text = "The capital of France is"
+tag = "facts"
+tokens = { "Paris" = 95, "a" = 3, "located" = 1, "home" = 1 }
+
+[[prompt]]
+text = "Let's circle back"
+tag = "business"
+tokens = { "on" = 45, "to" = 30, "next" = 15, "after" = 10 }
+
+[[prompt]]
+text = "SELECT * FROM"
+tag = "code"
+tokens = { "users" = 45, "orders" = 20, "customers" = 18, "table" = 12, "products" = 5 }
+continuation = [
+  { "WHERE" = 50, "LIMIT" = 20, "ORDER" = 18, ";" = 12 },
+  { "id" = 45, "email" = 25, "name" = 18, "age" = 12 },
+  { "=" = 70, "IN" = 15, ">" = 10, "LIKE" = 5 },
+  { "42" = 40, "1" = 30, "7" = 18, "100" = 12 },
+  { ";" = 75, "AND" = 12, "LIMIT" = 8, "OR" = 5 },
+]
+
+[[prompt]]
+text = "The weather today is"
+tag = "everyday"
+tokens = { "sunny" = 35, "cloudy" = 25, "nice" = 18, "cold" = 12, "rainy" = 10 }
+
+[[prompt]]
+text = "We need to move the needle on"
+tag = "business"
+tokens = { "growth" = 38, "revenue" = 20, "engagement" = 19, "retention" = 15, "this" = 8 }
+
+[[prompt]]
+text = "She opened the door and"
+tag = "story"
+tokens = { "saw" = 40, "walked" = 25, "stepped" = 18, "found" = 12, "screamed" = 5 }
+
+[[prompt]]
+text = "The new phone has a great"
+tag = "product"
+tokens = { "camera" = 55, "battery" = 18, "screen" = 15, "design" = 8, "price" = 4 }
+
+[[prompt]]
+text = "Blood pressure is measured in"
+tag = "medical"
+tokens = { "millimeters" = 55, "mmHg" = 30, "units" = 8, "the" = 7 }
+
+[[prompt]]
+text = "To be or not to"
+tag = "facts"
+tokens = { "be" = 97, "go" = 1, "see" = 1, "do" = 1 }
+
+[[prompt]]
+text = "Our users keep asking for"
+tag = "product"
+tokens = { "more" = 35, "a" = 20, "dark" = 18, "better" = 15, "faster" = 12 }
+
+[[prompt]]
+text = "The model's answer was"
+tag = "ai"
+tokens = { "correct" = 35, "wrong" = 20, "confident" = 20, "helpful" = 15, "long" = 10 }
+
+[[prompt]]
+text = "Water boils at"
+tag = "facts"
+tokens = { "100" = 70, "212" = 20, "sea" = 6, "high" = 4 }
+
+[[prompt]]
+text = "In conclusion, the results"
+tag = "work"
+tokens = { "show" = 45, "suggest" = 30, "are" = 12, "indicate" = 10, "were" = 3 }
+
+[[prompt]]
+text = "Happy birthday to"
+tag = "everyday"
+tokens = { "you" = 88, "my" = 6, "the" = 4, "our" = 2 }
+
+[[prompt]]
+text = "The flight was delayed because of"
+tag = "everyday"
+tokens = { "weather" = 45, "a" = 20, "mechanical" = 15, "fog" = 12, "the" = 8 }
+
+[[prompt]]
+text = "for i in range("
+tag = "code"
+tokens = { "10" = 45, "len" = 30, "n" = 15, "5" = 10 }
+
+[[prompt]]
+text = "The quick brown fox"
+tag = "facts"
+tokens = { "jumps" = 85, "ran" = 6, "is" = 5, "sat" = 4 }
+
+[[prompt]]
+text = "A good PM always starts with the"
+tag = "work"
+tokens = { "user" = 50, "problem" = 30, "customer" = 12, "why" = 8 }

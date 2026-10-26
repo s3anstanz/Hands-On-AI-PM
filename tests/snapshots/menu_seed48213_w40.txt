@@ -1,0 +1,16 @@
+HANDS-ON AI PM   seed 48213 · prices 
+checked 2026-10-09
+ 1  How an LLM g…  ~10 min  not started 
+ 2  Tokens: what…  ~8 min   not started 
+ 3  Temperature:…  ~10 min  not started 
+ 4  Hallucinatio…  ~8 min   not started 
+ 5  Small vs. la…  ~9 min   not started 
+ 6  Cost at scal…  ~10 min  not started 
+ 7  Context wind…  ~8 min   not started 
+ 8  Design an AI…  ~9 min   not started 
+ C  Cheat sheet …  ~3 min               
+Live mode: OFF (--offline). Everything 
+works offline.
+Pick a chapter (1, 2, 3, 4, 5, 6, 7, 8),
+C for the cheat sheet, f for feedback, 
+or q to quit

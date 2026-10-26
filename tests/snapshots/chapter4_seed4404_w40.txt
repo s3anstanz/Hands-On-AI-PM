@@ -1,0 +1,488 @@
+╭──────────────────────────────────────╮
+│                                      │
+│  Hallucinations: confident but       │
+│  wrong                               │
+│                                      │
+│  Question: "Define hallucination.    │
+│  Users say it's confident but        │
+│  wrong. Fix it."                     │
+│                                      │
+│  You'll answer this in your own      │
+│  words at the end of the chapter.    │
+│  The Recap at the end of the Learn   │
+│  section lists what a strong answer  │
+│  covers.                             │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 1/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 1 of 6 · What a hallucination is ───╮
+│                                      │
+│  A hallucination is an answer that   │
+│  is fluent and confident but false.  │
+│  It might be a made-up fact, a       │
+│  wrong number, a quote nobody said,  │
+│  or a source that doesn't exist.     │
+│                                      │
+│  Example: Ask for sources and you    │
+│  may get a real-looking title,       │
+│  authors and year for a paper that   │
+│  was never written.                  │
+│                                      │
+│  Why a PM cares: Users can't spot a  │
+│  hallucination by reading it, so     │
+│  your product has to catch it.       │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 2/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 2 of 6 · Why it happens ────────────╮
+│                                      │
+│  The model writes text that is       │
+│  likely, not text that has been      │
+│  checked. It has no built-in         │
+│  fact-checker.                       │
+│  A wrong answer comes from the same  │
+│  probability bars as a right one     │
+│  (Chapter 1). Sometimes the most     │
+│  likely token is simply wrong.       │
+│                                      │
+│  Think of it like: a quiz            │
+│  contestant who always answers, in   │
+│  the same confident voice, even      │
+│  when guessing.                      │
+│                                      │
+│  Example: "Einstein failed math" is  │
+│  repeated so often that it sounds    │
+│  right. It isn't true.               │
+│                                      │
+│  Why a PM cares: No setting turns    │
+│  this off, so you design around it.  │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 3/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 3 of 6 · Common causes ─────────────╮
+│                                      │
+│  • Missing context: the fact it      │
+│  needed wasn't in the prompt. It's   │
+│  a common cause in products, and     │
+│  the one you control.                │
+│  • Past the knowledge cutoff:        │
+│  events after the training data      │
+│  ends.                               │
+│  • A rare fact: one the model saw    │
+│  only a few times.                   │
+│  • A loaded question: one that       │
+│  assumes an answer exists, like      │
+│  "Which study proves this?"          │
+│                                      │
+│  Example: A sales assistant has no   │
+│  price list in its prompt. Asked     │
+│  what the premium plan costs, it     │
+│  writes a typical price, not yours.  │
+│                                      │
+│  Why a PM cares: Check what you put  │
+│  in the prompt before you blame the  │
+│  model.                              │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 4/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 4 of 6 · Why it sounds so sure ─────╮
+│                                      │
+│  Tone isn't a confidence signal.     │
+│  The model writes as fluently when   │
+│  it's wrong as when it's right.      │
+│  It can't flag its own guesses       │
+│  unless the product is built to      │
+│  check.                              │
+│                                      │
+│  Think of it like: a smooth          │
+│  salesperson who sounds the same     │
+│  whether the claim is true or not.   │
+│                                      │
+│  Why a PM cares: Users trust         │
+│  confident text, so your product     │
+│  has to supply the safeguards.       │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 5/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 5 of 6 · The fix toolbox ───────────╮
+│                                      │
+│  1. Give it the facts. Grounding     │
+│  means putting the right documents   │
+│  in the prompt and telling the       │
+│  model to answer only from them.     │
+│  Finding those documents first is    │
+│  retrieval (Chapter 7).              │
+│  2. Let it say "I don't know" when   │
+│  the facts aren't there.             │
+│  3. Ask for citations, and check     │
+│  them.                               │
+│  4. Put a person in the loop when    │
+│  the stakes are high.                │
+│                                      │
+│  What doesn't work: temperature 0.   │
+│  It repeats the top answer, right    │
+│  or wrong.                           │
+│                                      │
+│  Example: A drug-information bot     │
+│  answers only from the label text    │
+│  it was given, cites the section,    │
+│  and says "not in the label"         │
+│  otherwise.                          │
+│                                      │
+│  Why a PM cares: These are product   │
+│  decisions, not model settings.      │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 6/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ 6 of 6 ─────────────────────────────╮
+│                                      │
+│  Why it matters more in healthcare,  │
+│  legal and finance                   │
+│  In some fields one wrong answer is  │
+│  costly: a patient harmed, a         │
+│  contract broken, money lost.        │
+│  The costlier one mistake is, the    │
+│  more safeguards you need and the    │
+│  more often a person checks.         │
+│                                      │
+│  Example: A clinical summary with    │
+│  the wrong dose looks as polished    │
+│  as a correct one.                   │
+│                                      │
+│  Why a PM cares: Set the bar by the  │
+│  cost of one mistake, not by         │
+│  average quality.                    │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 7/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ Recap ──────────────────────────────╮
+│                                      │
+│  This chapter in 6 points. They're   │
+│  also what a strong answer to        │
+│  "Define hallucination. Users say    │
+│  it's confident but wrong. Fix it."  │
+│  covers.                             │
+│                                      │
+│  • A hallucination is fluent,        │
+│  confident output that is false.     │
+│  • It happens because the model      │
+│  writes likely text and never        │
+│  checks facts.                       │
+│  • Missing context is a common       │
+│  cause, and the one you control.     │
+│  • Fix it first by giving the model  │
+│  the facts: grounding, often         │
+│  through retrieval.                  │
+│  • Add safeguards: let it say "I     │
+│  don't know", ask for citations,     │
+│  and have a person check             │
+│  high-stakes answers.                │
+│  • Temperature 0 doesn't fix it: it  │
+│  repeats the top answer, right or    │
+│  wrong.                              │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 8/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Quick check 1 (not graded)
+Your bot keeps giving one wrong answer. 
+Someone suggests temperature 0. What 
+happens?
+  1. The wrong answer stops
+  2. You get the same wrong answer, 
+every time
+  3. The model starts checking its facts
+Your pick [1-3]
+Not quite: it's 2. Temperature 0 always 
+takes the top pick. If that pick is 
+wrong, you get it every time.
+Reread Learn screen 5? [Y/n]
+╭─ 5 of 6 · The fix toolbox ───────────╮
+│                                      │
+│  1. Give it the facts. Grounding     │
+│  means putting the right documents   │
+│  in the prompt and telling the       │
+│  model to answer only from them.     │
+│  Finding those documents first is    │
+│  retrieval (Chapter 7).              │
+│  2. Let it say "I don't know" when   │
+│  the facts aren't there.             │
+│  3. Ask for citations, and check     │
+│  them.                               │
+│  4. Put a person in the loop when    │
+│  the stakes are high.                │
+│                                      │
+│  What doesn't work: temperature 0.   │
+│  It repeats the top answer, right    │
+│  or wrong.                           │
+│                                      │
+│  Example: A drug-information bot     │
+│  answers only from the label text    │
+│  it was given, cites the section,    │
+│  and says "not in the label"         │
+│  otherwise.                          │
+│                                      │
+│  Why a PM cares: These are product   │
+│  decisions, not model settings.      │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 9/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Quick check 2 (not graded)
+Your HR assistant gives employees the 
+wrong number of vacation days. Which 
+cause do you control?
+  1. Its temperature is too high
+  2. The vacation policy isn't in its 
+prompt
+  3. The model is too small
+Your pick [1-3]
+Not quite: it's 2. Without your policy 
+in the prompt, it writes a typical 
+answer, not your company's.
+Reread Learn screen 3? [Y/n]
+╭─ 3 of 6 · Common causes ─────────────╮
+│                                      │
+│  • Missing context: the fact it      │
+│  needed wasn't in the prompt. It's   │
+│  a common cause in products, and     │
+│  the one you control.                │
+│  • Past the knowledge cutoff:        │
+│  events after the training data      │
+│  ends.                               │
+│  • A rare fact: one the model saw    │
+│  only a few times.                   │
+│  • A loaded question: one that       │
+│  assumes an answer exists, like      │
+│  "Which study proves this?"          │
+│                                      │
+│  Example: A sales assistant has no   │
+│  price list in its prompt. Asked     │
+│  what the premium plan costs, it     │
+│  writes a typical price, not yours.  │
+│                                      │
+│  Why a PM cares: Check what you put  │
+│  in the prompt before you blame the  │
+│  model.                              │
+│                                      │
+╰──────────────────────────────────────╯
+Ch 4 · Step 10/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Watch it happen
+Prompt: Measured from its base on the 
+sea floor to its peak, the tallest 
+mountain is ___
+  Everest ██████···· 58%
+Mauna Kea ███······· 30%
+       K2 █·········  8%
+   Denali ··········  4%
+Illustrative odds, computed with the 
+same math real models use.
+The right answer is 'Mauna Kea'. It 
+isn't the model's top pick.
+Your prediction: out of 20 runs at 
+temperature 0.7, how many give a wrong 
+answer? [0-20]
+At temperature 0.7 the odds sharpen: 
+'Everest' goes from 58% to 68%.
+
+20 runs at temperature 0.7
+  Everest ██████████ 19×
+Mauna Kea █·········  1×
+       K2 ··········  0×
+   Denali ··········  0×
+Wrong answers: 19 of 20. You guessed 15.
+Each wrong one reads as confidently as 
+the right one.
+What this shows: a wrong answer comes 
+from the same odds as a right one (Learn
+2).
+Ch 4 · Step 11/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Does temperature 0 help?
+Same prompt, 20 runs at temperature 0: 
+Measured from its base on the sea floor 
+to its peak, the tallest mountain is ___
+  Everest ██████████ 20×
+Mauna Kea ··········  0×
+       K2 ··········  0×
+   Denali ··········  0×
+Illustrative odds, computed with the 
+same math real models use.
+'Everest' came up 20 of 20 times. The 
+right answer, 'Mauna Kea', came up 0.
+Temperature 0 doesn't fix a 
+hallucination. Here it makes the most 
+likely answer win every time, and that 
+answer is wrong. (A real API can still 
+vary a little.)
+What this shows: temperature changes how
+the model picks, not what it knows 
+(Learn 5).
+Ch 4 · Step 12/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+The healthcare version
+A note-writing assistant fills in one 
+line. The prompt has nothing about this 
+patient.
+Prompt: The patient's blood type is ___
+ O positive ████······ 40%
+ A positive ███······· 34%
+ B positive █········· 13%
+ O negative █········· 10%
+AB negative ··········  3%
+Illustrative odds, computed with the 
+same math real models use.
+At temperature 0.7 the odds sharpen: 'O 
+positive' goes from 40% to 47%.
+
+20 runs at temperature 0.7
+ O positive ██████···· 11×
+ A positive ██········  4×
+ B positive █·········  2×
+ O negative █·········  2×
+AB negative █·········  1×
+The chart says 'AB negative'. 1 of 20 
+runs said so. The odds favor 'O 
+positive', a common answer, not this 
+patient's.
+What this shows: with the fact missing, 
+the model fills the gap with a typical 
+answer (Learn 3).
+Ch 4 · Step 13/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Add the context
+Now the prompt starts with the fact from
+the chart:
+Chart: blood type AB negative.
+The patient's blood type is ___
+Your prediction: out of 20 runs at 
+temperature 0.7, how many are wrong now?
+[0-20]
+
+20 runs at temperature 0.7, with the 
+chart
+AB negative █████████· 18×
+ O positive █·········  1×
+ A positive █·········  1×
+Illustrative odds, computed with the 
+same math real models use.
+Wrong answers: 19 of 20 without the 
+chart, 2 with it. You guessed 2.
+The model didn't get smarter. It was 
+handed the fact. Grounding cuts mistakes
+sharply but not always to zero, so 
+high-stakes answers still need a person.
+What this shows: grounding, giving the 
+model the facts, is the first fix (Learn
+5).
+Ch 4 · Step 14/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+One more question (not graded)
+How would you measure whether the fix 
+worked? Type a line, or press Enter to 
+skip.
+One good way: run a fixed set of 
+questions with known answers, say 200 
+real user questions, before and after 
+the fix, and compare the wrong-answer 
+rate. Hold medical answers to a stricter
+target, with clinicians checking them. A
+test like this is an eval, and its 
+numbers are what you bring to a launch 
+decision. Chapter 8 comes back to evals.
+What this shows: the costlier one 
+mistake is, the stricter the target 
+(Learn 6).
+Ch 4 · Step 15/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭──────────────────────────────────────╮
+│                                      │
+│  Hallucinations: confident but       │
+│  wrong                               │
+│                                      │
+│  Question: "Define hallucination.    │
+│  Users say it's confident but        │
+│  wrong. Fix it."                     │
+│                                      │
+│  Your turn.                          │
+│                                      │
+╰──────────────────────────────────────╯
+Answer out loud, then type your answer 
+in your own words. Stuck? Type h for a 
+hint. (finish with an empty line)
+>
+>
+Ch 4 · Step 16/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+╭─ Your answer ────────────────────────╮
+│ It predicts the next token from      │
+│ probabilities, one at a time.        │
+╰──────────────────────────────────────╯
+A strong answer covers these. Did yours?
+1. Defines a hallucination as fluent, 
+confident output that is false [y/N]
+2. Says it comes from writing likely 
+text, with no fact-checking [y/N]
+3. Names the cause you control: the fact
+it needed was missing from the prompt 
+(missing context) [y/N]
+4. Fixes it by supplying the facts 
+(grounding, retrieval) [y/N]
+5. Adds at least two safeguards: allow 
+"I don't know", ask for citations, human
+review for high stakes [y/N]
+6. Says temperature 0 doesn't fix it, 
+and why: it repeats the top answer, 
+right or wrong [y/N]
+Self-score: 6/6
+╭─ A strong answer ────────────────────╮
+│ A hallucination is an answer that    │
+│ sounds fluent and confident but is   │
+│ false. The model writes likely text  │
+│ and has no fact-checker, so when a   │
+│ fact is missing, it fills the gap    │
+│ with something typical. The cause we │
+│ control is missing context, so first │
+│ I'd ground it: fetch the relevant    │
+│ documents and tell it to answer only │
+│ from them. Then I'd let it say "I    │
+│ don't know", ask for citations we    │
+│ can check, and have a person review  │
+│ high-stakes answers. Temperature 0   │
+│ won't fix it: a wrong top answer     │
+│ just comes back every time. To       │
+│ measure the fix, I'd run 200 real    │
+│ questions with known answers before  │
+│ and after, and compare the           │
+│ wrong-answer rate, with a stricter   │
+│ target for medical answers.          │
+╰──────────────────────────────────────╯
+Now say it out loud once more, in your 
+own words.
+Ch 4 · Step 17/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+Follow-up: Wouldn't a bigger model just 
+fix this?
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: It helps with 
+facts the model saw often. But no model 
+knows facts that were never in its 
+training or its prompt, like this 
+patient's chart or your price list. 
+Bigger models still hallucinate. The fix
+is giving it the facts and checking the 
+output.
+Ch 4 · Step 18/18 · seed 4404   [Enter] 
+next  [b] back  [q] menu  [f] feedback
+How was this chapter? Want to send 
+feedback? [y/N]

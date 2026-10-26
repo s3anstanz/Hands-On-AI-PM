@@ -1,0 +1,163 @@
+# Product scenarios for Chapter 6 (cost) and Chapter 7 (context), and Chapter 8's design exercise.
+# Chapter 8 adds: domain ("general" | "medical" | "legal"), needs_facts (true/false),
+# latency ("interactive" | "background") and at least 3 [[scenario.followup]] tables.
+# Every [low, high] range is drawn fresh each run (users and docs_tokens on a log scale),
+# so numbers differ between seeds. Token counts are per request, in Claude tokens.
+# system_tokens is the fixed, cacheable start of input_tokens (system prompt, tool definitions, pinned
+# reference text). A draw above that run's input_tokens is capped at it.
+
+[[scenario]]
+id = "support-bot"
+name = "Customer support bot"
+pitch = "An assistant that answers customer questions for an online store."
+users = [2000, 50000]
+requests_per_user = [2, 8]
+input_tokens = [3000, 8000]
+output_tokens = [150, 400]
+system_tokens = [2500, 6000]
+docs_tokens = [20000, 400000]
+domain = "general"
+needs_facts = true
+latency = "interactive"
+
+[[scenario.followup]]
+question = "A customer says the bot promised a refund your policy doesn't allow. What now?"
+strong = "Treat it as a grounding failure. Answer only from the policy documents, quote the rule, and hand off to a person when the policy doesn't cover the case. Review the chat, decide whether to honor it, and add it to your test set."
+
+[[scenario.followup]]
+question = "Support leaders want the bot to issue refunds by itself. Do you agree?"
+strong = "Not on day one. Start with answers only. Then allow small refunds under a set limit, with a confirmation step and a log of every action. Above the limit, a person approves. Track mistakes before raising the limit."
+
+[[scenario.followup]]
+question = "Black Friday brings 10× the traffic. What breaks first?"
+strong = "Cost and rate limits. The bill jumps about 10× and requests can get throttled. Cache the fixed system prompt, route easy questions to a small model, ask the provider for higher limits early, and set spend alerts."
+
+[[scenario]]
+id = "coding-assistant"
+name = "Coding assistant"
+pitch = "An assistant in the code editor that explains and writes code for a company's developers."
+users = [200, 5000]
+requests_per_user = [20, 80]
+input_tokens = [8000, 30000]
+output_tokens = [300, 1500]
+system_tokens = [4000, 20000]
+docs_tokens = [100000, 600000]
+domain = "general"
+needs_facts = true
+latency = "interactive"
+
+[[scenario.followup]]
+question = "Developers say suggestions call functions that don't exist in our codebase."
+strong = "That's missing context: the model guesses likely names. Fetch the relevant files and definitions into the prompt. Check suggestions automatically (does it build, do the tests pass) before showing them."
+
+[[scenario.followup]]
+question = "Engineering wants the biggest model for everything. Your call?"
+strong = "Route by task. Inline completions need a fast first token, so use a small model. Big refactors and explanations can use a large one. Show the cost and speed of each, and measure acceptance rates per model."
+
+[[scenario.followup]]
+question = "Security asks whether our code leaves the company. What do you say?"
+strong = "Yes, prompts go to the provider. Check its data terms: retention, no training on your data, zero-retention options. Strip secrets before sending, limit which repositories are allowed, and log what was sent."
+
+[[scenario]]
+id = "medical-note-summarizer"
+name = "Medical-note summarizer"
+pitch = "Turns a clinic visit transcript into a draft note for the doctor to review."
+users = [100, 3000]
+requests_per_user = [8, 25]
+input_tokens = [3000, 9000]
+output_tokens = [400, 1200]
+system_tokens = [1000, 3000]
+docs_tokens = [30000, 300000]
+domain = "medical"
+needs_facts = true
+latency = "background"
+
+[[scenario.followup]]
+question = "A user reports a wrong medication dose in a summary."
+strong = "Treat it as a safety incident. Pull the summary and check it against the source note. Then fix the cause: give the model the full note, require doses to be copied word for word and highlighted, and have a clinician sign off. Add the case to your test set."
+
+[[scenario.followup]]
+question = "Clinicians now want the summary during the visit, in two seconds."
+strong = "It becomes interactive, so batch is out and time to first token matters. Use a faster model or lower effort, and stream the answer. Then check on real notes that accuracy holds. Speed can't cost us wrong doses."
+
+[[scenario.followup]]
+question = "Legal asks who is responsible when a summary is wrong."
+strong = "The clinician who signs off. The tool drafts; it doesn't decide. Label summaries as AI drafts, keep an audit trail of the source and the edits, and sign a data agreement with the model provider for patient data."
+
+[[scenario]]
+id = "ad-copy-tool"
+name = "Ad-copy tool"
+pitch = "Writes ad headlines and descriptions in several versions for a marketing team."
+users = [500, 20000]
+requests_per_user = [5, 30]
+input_tokens = [1000, 2500]
+output_tokens = [200, 800]
+system_tokens = [600, 1000]
+docs_tokens = [10000, 80000]
+domain = "general"
+needs_facts = false
+latency = "interactive"
+
+[[scenario.followup]]
+question = "Marketing says every headline sounds the same."
+strong = "Ask for several clearly different options per request, and give examples of the tones you want. On models that allow it, raise temperature. On the newest Claude models, change the prompt instead. More effort doesn't add variety."
+
+[[scenario.followup]]
+question = "The tool wrote 'clinically proven' about a product that isn't."
+strong = "A made-up claim is a hallucination with legal risk. Give the tool a list of approved claims and tell it to use only those. Block risky phrases automatically, and keep a human review before anything is published."
+
+[[scenario.followup]]
+question = "Before every holiday, usage jumps. How do you keep the cost down?"
+strong = "Generate campaign drafts overnight with batch, which costs less. Cache the brand guidelines in the prompt and cap the answer length. Use a small model for first drafts and a larger one only for the final pick."
+
+[[scenario]]
+id = "contract-reviewer"
+name = "Contract reviewer"
+pitch = "Flags risky clauses in contracts and suggests edits for a legal team."
+users = [50, 1000]
+requests_per_user = [3, 15]
+input_tokens = [15000, 60000]
+output_tokens = [800, 3000]
+system_tokens = [2000, 6000]
+docs_tokens = [100000, 600000]
+domain = "legal"
+needs_facts = true
+latency = "interactive"
+
+[[scenario.followup]]
+question = "The tool missed an auto-renewal clause, and the client got locked in for a year."
+strong = "Find out why. If it fetched pieces, the search missed the clause. If it read everything, the clause may have sat in the middle. Check a fixed list of clause types one by one, keep a lawyer's sign-off, and add the contract to your test set."
+
+[[scenario.followup]]
+question = "A 300-page contract arrives. Does your design still work?"
+strong = "Count its tokens against the context window first. It probably fits, but each review costs more and the middle of a long input gets less attention. Review it section by section, or fetch the relevant clauses."
+
+[[scenario.followup]]
+question = "Partners want it to suggest new wording, not just flag risks."
+strong = "That raises the stakes: its text could end up in a signed contract. Use a stronger model or more effort, show every change as a tracked edit, and require a lawyer to approve each one. Track how often edits are accepted."
+
+[[scenario]]
+id = "meeting-notes"
+name = "Meeting-notes app"
+pitch = "Summarizes meeting transcripts and lists the action items."
+users = [1000, 100000]
+requests_per_user = [1, 4]
+input_tokens = [5000, 20000]
+output_tokens = [300, 900]
+system_tokens = [600, 1500]
+docs_tokens = [20000, 200000]
+domain = "general"
+needs_facts = true
+latency = "background"
+
+[[scenario.followup]]
+question = "A summary lists an action item nobody agreed to."
+strong = "Ground every action item in the transcript: quote the line and its timestamp, and drop items it can't point to. Let attendees correct the summary, and spot-check a sample each week."
+
+[[scenario.followup]]
+question = "Meetings now run three hours. What changes?"
+strong = "The transcript is several times longer, so each summary costs more and takes longer. It still fits the context window, but the middle gets less attention. Summarize in sections, then combine."
+
+[[scenario.followup]]
+question = "Customers in Japan sign up. Anything to watch?"
+strong = "The same meeting takes more tokens in Japanese, so cost per meeting rises (Chapter 2). Test summary quality on real Japanese meetings before launch, and track cost per user by language."

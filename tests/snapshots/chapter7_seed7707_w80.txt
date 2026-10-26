@@ -1,0 +1,343 @@
+╭─ Context windows: what the model can see ────────────────────────────────────╮
+│                                                                              │
+│  Question: "What's a context window? Paste everything in or fetch what's     │
+│  relevant?"                                                                  │
+│                                                                              │
+│  You'll answer this in your own words at the end of the chapter. The Recap   │
+│  at the end of the Learn section lists what a strong answer covers.          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 7 · Step 1/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 1 of 5 · The context window is working memory ──────────────────────────────╮
+│                                                                              │
+│  The context window is everything the model can see in one request: the      │
+│  system prompt, the chat history, any documents, and the answer it's         │
+│  writing.                                                                    │
+│  It has a hard limit, counted in tokens. Current Claude models take up to    │
+│  1M tokens, about 555,000 words.                                             │
+│                                                                              │
+│  Think of it like: a desk. The model can use what's on it, and nothing else  │
+│  exists.                                                                     │
+│                                                                              │
+│  Why a PM cares: You decide what goes in the window, so what the model can   │
+│  use is a product decision.                                                  │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 7 · Step 2/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 2 of 5 · No memory between requests ────────────────────────────────────────╮
+│                                                                              │
+│  Each request starts from nothing. The model keeps nothing from earlier      │
+│  requests.                                                                   │
+│  When a chat seems to remember, the app is sending the history again each    │
+│  time. That's why Chapter 6's chat costs grow with every turn.               │
+│                                                                              │
+│  Example: On a user's 13th message, the request carries the system prompt,   │
+│  the 12 earlier messages, the model's 12 replies and the new message.        │
+│                                                                              │
+│  Why a PM cares: Memory is a feature you build. Decide what to store, what   │
+│  to resend and what to forget.                                               │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 7 · Step 3/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 3 of 5 · When it fills up ──────────────────────────────────────────────────╮
+│                                                                              │
+│  When a chat or a pile of documents outgrows the window, the app must drop   │
+│  the oldest content or summarize it. Otherwise the request is rejected.      │
+│  To the model, dropped content is gone.                                      │
+│                                                                              │
+│  Example: A long support chat drops its oldest messages. If one held the     │
+│  order number, the model can no longer see it.                               │
+│                                                                              │
+│  Why a PM cares: Decide what must never be dropped, like an allergy or an    │
+│  order number, and keep it pinned or summarized.                             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 7 · Step 4/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 4 of 5 · Bigger isn't free ─────────────────────────────────────────────────╮
+│                                                                              │
+│  Every request pays for everything in the window again, and long inputs are  │
+│  slower.                                                                     │
+│  Models also pay less attention to the middle of a very long input than to   │
+│  its start and end.                                                          │
+│                                                                              │
+│  Example: A question about one clause doesn't need all 300 pages of the      │
+│  contract.                                                                   │
+│                                                                              │
+│  Why a PM cares: A big window is a capability, not a strategy. Fill it only  │
+│  when the task needs it.                                                     │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 7 · Step 5/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 5 of 5 · Paste everything vs. fetch what's relevant ────────────────────────╮
+│                                                                              │
+│  Pasting every document into the prompt is simple, but expensive and noisy.  │
+│  Retrieval searches first and sends only the most relevant pieces. It's      │
+│  often called RAG, retrieval-augmented generation.                           │
+│  It's cheaper and more focused, but the search can miss the one document     │
+│  that mattered.                                                              │
+│                                                                              │
+│  Think of it like: handing over the whole filing cabinet vs. the three       │
+│  folders someone needs, picked by an assistant who sometimes grabs the       │
+│  wrong one.                                                                  │
+│                                                                              │
+│  Why a PM cares: Products with many documents usually use retrieval, so      │
+│  measure how often its search finds the right piece.                         │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 7 · Step 6/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Recap ──────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  This chapter in 5 points. They're also what a strong answer to "What's a    │
+│  context window? Paste everything in or fetch what's relevant?" covers.      │
+│                                                                              │
+│  • The context window is everything the model can see in one request, with   │
+│  a hard limit in tokens: up to 1M tokens on current Claude models.           │
+│  • When it overflows, the oldest content is dropped or summarized, and the   │
+│  model forgets it.                                                           │
+│  • The model has no memory between requests, so every request sends the      │
+│  whole window again and pays for it.                                         │
+│  • Very long inputs are slower, and content in the middle gets less          │
+│  attention.                                                                  │
+│  • Retrieval sends only the relevant pieces. It's cheaper and more focused,  │
+│  but the search can miss what mattered. So fetch what's relevant and         │
+│  measure how often the search finds the right piece.                         │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 7 · Step 7/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 1 (not graded)
+A user comes back a week later: "As I told you last time..." What can the model 
+see from last week?
+  1. Everything: it remembers past chats
+  2. Only what the app puts into this request
+  3. Nothing: past chats can never be used
+Your pick [1-3]
+Not quite: it's 2. The model has no memory between requests. It sees last week 
+only if the app stored that chat or a summary and sends it now.
+Reread Learn screen 2? [Y/n]
+╭─ 2 of 5 · No memory between requests ────────────────────────────────────────╮
+│                                                                              │
+│  Each request starts from nothing. The model keeps nothing from earlier      │
+│  requests.                                                                   │
+│  When a chat seems to remember, the app is sending the history again each    │
+│  time. That's why Chapter 6's chat costs grow with every turn.               │
+│                                                                              │
+│  Example: On a user's 13th message, the request carries the system prompt,   │
+│  the 12 earlier messages, the model's 12 replies and the new message.        │
+│                                                                              │
+│  Why a PM cares: Memory is a feature you build. Decide what to store, what   │
+│  to resend and what to forget.                                               │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 7 · Step 8/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 2 (not graded)
+Your support bot fetches the 3 most relevant help pages per question. It 
+answered a refund question wrong, though the refund policy is in your help 
+center. Most likely cause?
+  1. The search didn't fetch the refund page
+  2. The context window is too small
+  3. The temperature is too low
+Your pick [1-3]
+Right. Retrieval is only as good as its search. If the right page isn't fetched,
+the model never sees it.
+Ch 7 · Step 9/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+Watch it forget
+A simulated clinic chat with a tiny window of 120 tokens. Your first message and
+its reply take 26 tokens. Each later question and answer takes about 22. When 
+the window is full, the app drops the oldest messages.
+Your prediction: after how many turns does your first message fall out? [1-7]
+
+Turn 1 · window 26/120 tokens
+  You: Hi, I'm Aiko. Please remember: I'm allergic to latex.
+  Assistant: Got it, Aiko. I've noted your latex allergy.
+Enter for the next turn
+
+Turn 2 · window 45/120 tokens
+  You: Hi, I'm Aiko. Please remember: I'm allergic to latex.
+  Assistant: Got it, Aiko. I've noted your latex allergy.
+  You: How early should I arrive?
+  Assistant: About 15 minutes early, to fill in a short form.
+Enter for the next turn
+
+Turn 3 · window 70/120 tokens
+  You: Hi, I'm Aiko. Please remember: I'm allergic to latex.
+  Assistant: Got it, Aiko. I've noted your latex allergy.
+  You: How early should I arrive?
+  Assistant: About 15 minutes early, to fill in a short form.
+  You: Do I need to fast before a checkup?
+  Assistant: No fasting needed. Do bring a list of the medicines you take now.
+Enter for the next turn
+
+Turn 4 · window 80/120 tokens
+  You: Hi, I'm Aiko. Please remember: I'm allergic to latex.
+  Assistant: Got it, Aiko. I've noted your latex allergy.
+  You: How early should I arrive?
+  Assistant: About 15 minutes early, to fill in a short form.
+  You: Do I need to fast before a checkup?
+  Assistant: No fasting needed. Do bring a list of the medicines you take now.
+  You: Is there parking?
+  Assistant: Yes, behind the building.
+Enter for the next turn
+
+Turn 5 · window 101/120 tokens
+  You: Hi, I'm Aiko. Please remember: I'm allergic to latex.
+  Assistant: Got it, Aiko. I've noted your latex allergy.
+  You: How early should I arrive?
+  Assistant: About 15 minutes early, to fill in a short form.
+  You: Do I need to fast before a checkup?
+  Assistant: No fasting needed. Do bring a list of the medicines you take now.
+  You: Is there parking?
+  Assistant: Yes, behind the building.
+  You: Can I book a checkup next week?
+  Assistant: Yes: Tuesday at 10 or Thursday at 3.
+Enter for the next turn
+
+Turn 6 · window 110/120 tokens
+✗ You: Hi, I'm Aiko. Please remember: I'm allergic to latex.
+  Assistant: Got it, Aiko. I've noted your latex allergy.
+  You: How early should I arrive?
+  Assistant: About 15 minutes early, to fill in a short form.
+  You: Do I need to fast before a checkup?
+  Assistant: No fasting needed. Do bring a list of the medicines you take now.
+  You: Is there parking?
+  Assistant: Yes, behind the building.
+  You: Can I book a checkup next week?
+  Assistant: Yes: Tuesday at 10 or Thursday at 3.
+  You: Can my daughter come into the exam room with me?
+  Assistant: Of course. Family members are welcome in the exam room.
+Enter for the next turn
+
+Turn 7 · window 113/120 tokens
+✗ You: Hi, I'm Aiko. Please remember: I'm allergic to latex.
+✗ Assistant: Got it, Aiko. I've noted your latex allergy.
+✗ You: How early should I arrive?
+✗ Assistant: About 15 minutes early, to fill in a short form.
+  You: Do I need to fast before a checkup?
+  Assistant: No fasting needed. Do bring a list of the medicines you take now.
+  You: Is there parking?
+  Assistant: Yes, behind the building.
+  You: Can I book a checkup next week?
+  Assistant: Yes: Tuesday at 10 or Thursday at 3.
+  You: Can my daughter come into the exam room with me?
+  Assistant: Of course. Family members are welcome in the exam room.
+  You: What should I bring?
+  Assistant: Your insurance card, a photo ID, a list of your medicines, and any 
+recent test results or letters from other doctors you've seen this year.
+
+You: Quick question before my visit: what am I allergic to?
+Assistant: I don't see an allergy anywhere in our chat. Could you tell me again?
+✗ = out of the window: the model can't see it.
+Your first message fell out after 6 turns. You guessed 4; actual 6; off by 2. 
+Real windows hold up to 1M tokens, but long chats fill them too, so apps 
+summarize old turns or pin key facts like this one.
+What this shows: once the allergy falls out of the window, the model can't see 
+it (Learn 3).
+Ch 7 · Step 10/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+Bigger windows, bigger bills
+Input cost of one request, at three sizes:
+
+Size   Haiku 5.5   Sonnet 5.5   Opus 5.5
+────────────────────────────────────────
+2K       $0.0002      $0.0040    $0.0080
+50K      $0.0050        $0.10      $0.20
+500K       $0.25        $1.00      $2.00
+prices checked 2026-10-09
+From 50K to 500K the input is 10× bigger. On Sonnet 5.5 the cost grows 10× too; 
+on Haiku 5.5 it grows 50×, because a prompt over 100,000 tokens pays the higher 
+rate on the whole request.
+And you pay that on every request.
+What this shows: a bigger prompt is a bigger bill on every request (Learn 4).
+Ch 7 · Step 11/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+Lost in the middle
+How often the model uses a fact, by where it sits in a very long input. 
+Illustrative: the shape of a known effect, not a measurement of any model.
+
+Start ██████████████████████████████ 95%
+10%   ████████████████████████████·· 88%
+20%   █████████████████████████····· 80%
+30%   ██████████████████████········ 72%
+40%   █████████████████████········· 66%
+50%   ████████████████████·········· 63%
+60%   █████████████████████········· 66%
+70%   ███████████████████████······· 73%
+80%   █████████████████████████····· 81%
+90%   ████████████████████████████·· 89%
+End   ██████████████████████████████ 96%
+Put what matters most at the start or end of a long prompt, or send less, so 
+nothing important sits in the middle.
+What this shows: the middle of a long input gets less attention than the start 
+and end (Learn 4).
+Ch 7 · Step 12/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+Paste everything or fetch what's relevant?
+Meeting-notes app (illustrative usage): Summarizes meeting transcripts and lists
+the action items. Its reference material is about 38 pages (34,000 tokens, at 
+about 901 tokens a page). Each request also has 9,200 tokens of its own and a 
+720-token answer.
+Your prediction: how many times cheaper per request is fetching 3 relevant pages
+than pasting all 38? [1-100]
+
+The cost of 1,000 requests on Claude Sonnet 5.5:
+                Tokens in   Per 1,000
+─────────────────────────────────────
+Paste all          43,200      $93.60
+Fetch 3 pages      11,903      $31.01
+prices checked 2026-10-09
+Fetching is 3× cheaper per request. You guessed 5×; actual 3×; off by 2×. At 
+195,000 requests a day that's $547,560.00 vs. $181,408.50 a month.
+The catch: if the search misses the page that mattered, the model never sees it.
+Measure how often it finds the right page.
+What this shows: sending only what's relevant cuts the bill on every request 
+(Learn 5).
+Ch 7 · Step 13/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Context windows: what the model can see ────────────────────────────────────╮
+│                                                                              │
+│  Question: "What's a context window? Paste everything in or fetch what's     │
+│  relevant?"                                                                  │
+│                                                                              │
+│  Your turn.                                                                  │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Answer out loud, then type your answer in your own words. Stuck? Type h for a 
+hint. (finish with an empty line)
+>
+>
+Ch 7 · Step 14/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Your answer ────────────────────────────────────────────────────────────────╮
+│ It predicts the next token from probabilities, one at a time.                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+A strong answer covers these. Did yours?
+1. Says the context window is everything the model can see in one request, with 
+a hard token limit [y/N]
+2. Says that when it overflows, older content is dropped or summarized, and the 
+model forgets it [y/N]
+3. Says every request pays for everything in the window again (no memory between
+requests) [y/N]
+4. Says quality can drop for content in the middle of very long inputs [y/N]
+5. Names at least one benefit of retrieval (cheaper, more focused) and its risk:
+the search can miss the key document [y/N]
+Self-score: 5/5
+╭─ A strong answer ────────────────────────────────────────────────────────────╮
+│ The context window is everything a model can see in one request: the system  │
+│ prompt, the history, any documents and its own answer. It has a hard limit,  │
+│ up to 1M tokens (about 555,000 words) on current Claude models. The model    │
+│ has no memory between requests, so the app resends what matters, and every   │
+│ request pays for the whole window again. When it overflows, the oldest       │
+│ content is dropped or summarized and the model forgets it. Long inputs are   │
+│ also slower, and details in the middle get less attention. So for a big      │
+│ document set I'd fetch what's relevant and measure how often the search      │
+│ finds the right piece. Retrieval is far cheaper per request and more         │
+│ focused, but the search can miss the one document that mattered. I'd paste   │
+│ everything only when the material is small.                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Now say it out loud once more, in your own words.
+Ch 7 · Step 15/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+Follow-up: Retrieval missed the key document. Now what?
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: First find out why: was it indexed, how was it split, 
+did the question's wording match it? Then fix the search with better chunks, 
+keyword plus meaning-based search, or more pieces re-ranked. Let the model say 
+when it can't find the answer, and track how often the search finds the right 
+document on test questions.
+Ch 7 · Step 16/16 · seed 7707   [Enter] next  [b] back  [q] menu  [f] feedback
+How was this chapter? Want to send feedback? [y/N]

@@ -1,0 +1,12 @@
+HANDS-ON AI PM   seed 48213 · prices checked 2026-10-09
+ 1  How an LLM generates text                ~10 min  not started 
+ 2  Tokens: what models read and bill        ~8 min   not started 
+ 3  Temperature: how the model picks         ~10 min  not started 
+ 4  Hallucinations: confident but wrong      ~8 min   not started 
+ 5  Small vs. large models: how to choose    ~9 min   not started 
+ 6  Cost at scale: what drives the bill      ~10 min  not started 
+ 7  Context windows: what the model can see  ~8 min   not started 
+ 8  Design an AI feature                     ~9 min   not started 
+ C  Cheat sheet + glossary                   ~3 min               
+Live mode: OFF (--offline). Everything works offline.
+Pick a chapter (1, 2, 3, 4, 5, 6, 7, 8), C for the cheat sheet, f for feedback, or q to quit

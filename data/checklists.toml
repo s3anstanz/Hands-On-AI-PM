@@ -1,0 +1,242 @@
+# Grading checklist + follow-up questions per chapter. Part 2 adds chapters 2-8.
+
+[chapter.1]
+question = "Explain how an LLM generates text."
+checklist = [
+  "Says it predicts one token (a word or word piece) at a time",
+  "Says it picks from a probability distribution over possible next tokens",
+  "Says it appends the pick and repeats until the answer is done",
+  "Mentions the knowledge cutoff, and that apps add newer information to the prompt (for example, web search results)",
+  "Notes that bigger models are better but slower and pricier",
+]
+hint = "tokens · probabilities · add and repeat · knowledge cutoff (and how apps get fresh info) · model size"
+sample_answer = """An LLM writes one token at a time. At each step it gives every possible next token a probability, \
+based on patterns from training, picks one, adds it to the text, and repeats until the answer is done. \
+Its own knowledge stops at its training cutoff, so apps add fresh information, like search results, to the prompt. \
+Bigger models answer better but are slower and cost more, so choosing one is a quality, speed and cost tradeoff."""
+
+[[chapter.1.followup]]
+question = "Then how does it 'know' facts?"
+strong = "It doesn't look facts up. Facts it saw often in training became high-probability continuations, so it reproduces them. Rare facts get weak probabilities, which is where mistakes creep in (Chapter 4)."
+
+[[chapter.1.followup]]
+question = "But ChatGPT told me about yesterday's news. How?"
+strong = "Training stopped on a date: the knowledge cutoff. Anything after that isn't in the model unless the product supplies it in the prompt, for example by searching the web first."
+
+[[chapter.1.followup]]
+question = "Why does the same prompt give different answers?"
+strong = "Each step picks from probabilities rather than always taking the top word, and one different pick early on changes everything after it. Chapter 3 covers the setting that controls this: temperature."
+
+[chapter.2]
+question = "What's a token and why does it matter?"
+checklist = [
+  "Says a token is a chunk of text (a word or a piece of one), not always a whole word",
+  "Says a token is about ¾ of an English word on average, and says it depends on the tokenizer",
+  "Says price, speed and limits are all measured in tokens",
+  "Names at least two kinds of text that use more tokens: rare words, numbers, code, non-English text",
+  "Says different vendors' tokenizers count the same text differently",
+  "Gives a number that's roughly right (for example, 1,000 English words is about 1,300 tokens by the ¾ rule, or about 1,100 to 1,800 on today's tokenizers)",
+]
+hint = "chunks, not words · the ¾ rule and its catch · price, speed, limits · what costs more · vendors differ · a number"
+sample_answer = """A token is a chunk of text, a whole word or a piece of one, and it's the unit models read, write and bill in. \
+Price is per million tokens, speed is tokens per second, and a model's size limit is a token count. \
+By the classic ¾ rule, 1,000 English words is about 1,300 tokens, but the real count depends on the tokenizer: \
+about 1,100 on OpenAI's and about 1,800 on Claude's. \
+Rare words, numbers, code and many languages take more: on OpenAI's tokenizer the same sentence is about 1.5× the tokens in Japanese and 2.1× in Hindi. \
+So I'd measure our real text, per language, before we set prices or usage limits."""
+
+[[chapter.2.followup]]
+question = "Your product launches in Japan. What happens to your cost?"
+strong = "The same messages take more tokens in Japanese, so cost per user rises even if usage looks the same. Measure real traffic per language before you set prices or usage limits."
+
+[[chapter.2.followup]]
+question = "Why not just bill users per word?"
+strong = "Your own costs are per token, and tokens per word vary with language, content and tokenizer. Billing per word means some users cost you far more than they pay. Bill per token, by usage tier, or per seat with limits."
+
+[chapter.3]
+question = "What does temperature do? When would you set it to 0?"
+checklist = [
+  "Says temperature reshapes the probability distribution the model picks from (or: changes how random or spread out the picks are)",
+  "Says low temperature is predictable and high temperature is varied (both ends)",
+  "Says to set it near 0 for one-right-answer tasks like extraction or classification, on models that accept it",
+  "Says to set it higher, about 0.7 to 1, for creative tasks",
+  "Says temperature doesn't make answers more correct",
+  "Names top-p or top-k and says it trims unlikely options, or says the newest Claude models fix temperature, so consistency comes from the prompt, examples, structured output and checks",
+]
+hint = "reshapes the odds · low vs. high · one right answer · creative tasks · not more correct · top-p, or what replaces temperature"
+sample_answer = """Temperature reshapes the odds the model picks from without changing what it knows: low makes the top pick win almost every time, high gives less likely tokens more chances. \
+It doesn't make answers more correct, and even 0 isn't fully deterministic on a real API. \
+Top-p and top-k trim unlikely options before the pick. \
+On the newest Claude models you can't set it, so I'd get consistency from the prompt, examples and structured output. \
+On a model that accepts it, I'd start at 0 for extraction and about 0.7 for ad copy, and check with a small eval."""
+
+[[chapter.3.followup]]
+question = "Legal wants identical answers every time. Is temperature 0 enough?"
+strong = "No. The real API isn't fully deterministic at 0, and the newest Claude models don't let you set temperature at all. For identical answers, reuse stored approved answers or templates, and test for consistency."
+
+[[chapter.3.followup]]
+question = "Marketing says the copy is boring. What do you change?"
+strong = "On a model that allows it, raise temperature, or ask for several options and pick the best. On the newest Claude models, change the prompt: ask for bolder variations and give examples of the tone you want."
+
+[[chapter.3.followup]]
+question = "Your team is on Claude Opus 5.5, which doesn't take a temperature. How do you get consistent answers?"
+strong = "Steer from the prompt: clear instructions, a few examples of good answers, and structured output with a fixed schema. Check consistency with a small eval, and store and reuse approved answers when they must be identical."
+
+[[chapter.3.followup]]
+question = "Does temperature 0 stop hallucinations?"
+strong = "No. If the most likely answer is wrong, temperature 0 picks it every time. Fix hallucinations with better inputs: grounding facts, permission to say 'I don't know', and checks (Chapter 4)."
+
+[chapter.4]
+question = "Define hallucination. Users say it's confident but wrong. Fix it."
+checklist = [
+  "Defines a hallucination as fluent, confident output that is false",
+  "Says it comes from writing likely text, with no fact-checking",
+  "Names the cause you control: the fact it needed was missing from the prompt (missing context)",
+  "Fixes it by supplying the facts (grounding, retrieval)",
+  "Adds at least two safeguards: allow \"I don't know\", ask for citations, human review for high stakes",
+  "Says temperature 0 doesn't fix it, and why: it repeats the top answer, right or wrong",
+]
+hint = "define it · why it happens · the cause you control · the first fix · two safeguards · what doesn't fix it"
+sample_answer = """A hallucination is an answer that sounds fluent and confident but is false. \
+The model writes likely text and has no fact-checker, so when a fact is missing, it fills the gap with something typical. \
+The cause we control is missing context, so first I'd ground it: fetch the relevant documents and tell it to answer only from them. \
+Then I'd let it say "I don't know", ask for citations we can check, and have a person review high-stakes answers. \
+Temperature 0 won't fix it: a wrong top answer just comes back every time. \
+To measure the fix, I'd run 200 real questions with known answers before and after, and compare the wrong-answer rate, \
+with a stricter target for medical answers."""
+
+[[chapter.4.followup]]
+question = "You added retrieval and it still makes things up. What next?"
+strong = "Check whether retrieval found the right document. Often the search missed it and the model guessed. Measure retrieval on real questions, let the model say 'I don't know' when the documents fall short, require citations to the retrieved text, and add human review where mistakes are costly."
+
+[[chapter.4.followup]]
+question = "How do you explain this risk to a hospital customer?"
+strong = "Say plainly that the model can state a wrong fact as confidently as a right one, so every output is a draft. Then the safeguards: it answers only from the patient's chart, cites each fact's source, flags what it couldn't find, and a clinician signs off. Share the measured error rate and how you monitor it."
+
+[[chapter.4.followup]]
+question = "Wouldn't a bigger model just fix this?"
+strong = "It helps with facts the model saw often. But no model knows facts that were never in its training or its prompt, like this patient's chart or your price list. Bigger models still hallucinate. The fix is giving it the facts and checking the output."
+
+[chapter.5]
+question = "Small vs. large models: how do you choose?"
+checklist = [
+  "Starts from the job: who uses it, how often it runs, and what a mistake costs",
+  "Names the quality, speed and cost tradeoff",
+  "Separates time to first token from streaming speed, if users wait on it",
+  "Routes easy requests to a small model and hard ones to a large model, and says how requests get sorted",
+  "Counts the full cost: human review or retries, not just tokens",
+  "Commits to a recommendation consistent with the rest of the answer, with the conditions that would change it",
+]
+hint = "the job first · quality, speed, cost · two kinds of speed · routing · full cost · commit with conditions"
+sample_answer = """I start from the job: what users are doing, how many requests a day, and what one mistake costs. \
+Quality, speed and cost trade off, and speed has two parts: time to first token, which users feel in a chat, \
+and streaming speed, which matters for long answers. \
+Most traffic is easy, so I'd route easy requests to a small model like Haiku and hard ones to Sonnet or Opus, \
+with a simple rule or a small classifier doing the sorting. If 80% of requests are easy, that cuts the bill by nearly 80%. \
+I'd count the full cost too, since a cheap model that needs more human fixing can cost more overall, \
+and I'd keep exact-answer work like format checks out of the model. \
+So for a support assistant I'd start with Haiku, route hard tickets to Sonnet, \
+and move more traffic to Sonnet if the measured error rate on easy tickets goes above 5%."""
+
+[[chapter.5.followup]]
+question = "Latency now matters twice as much. Does your answer change?"
+strong = "First ask which latency. If users wait for the first token, move more traffic to a smaller model or cut long thinking. If long answers stream slowly, use a faster model or fast mode for just those requests. Then re-check quality and say what you give up."
+
+[[chapter.5.followup]]
+question = "Finance cuts your budget in half."
+strong = "Find where the money goes first. Route more easy traffic to the small model, trim long prompts and answers, and check the full cost so savings don't come back as human review. Re-measure quality. If that's not enough, say which features you'd scale back."
+
+[[chapter.5.followup]]
+question = "A new model is 20% better and 3× pricier. Switch?"
+strong = "Better at what? Test it on our own tasks. If the gain is on hard requests, route only those to it, so the extra cost hits a small share of traffic. Switch fully only if the gain saves more in review, retries or revenue than it adds in tokens."
+
+[chapter.6]
+question = "How do costs change as you scale?"
+checklist = [
+  "Says output tokens cost more per token than input tokens",
+  "Names at least one hidden cost sent with every request: the system prompt, tool definitions or chat history",
+  "Says chat history is re-sent every turn, so long chats cost disproportionately more",
+  "Names at least two levers: caching, batch, a smaller model, shorter answers",
+  "Puts a number on it: cost per request, per user or per month",
+  "Says temperature doesn't change the price per token",
+]
+hint = "output costs {output_times} input · hidden tokens on every request · history re-sent every turn · cache what repeats, batch what can wait · a number per user per month · temperature isn't a price lever"
+sample_answer = """Costs scale with tokens, and input and output are priced separately: on Claude, an output token costs \
+{output_times} as much as an input token, so answer length matters. Every request also carries hidden tokens, like the \
+system prompt and tool definitions, and a chat re-sends its whole history every turn, so long conversations cost far more \
+than their length suggests. Temperature isn't a lever, since it doesn't change the price per token. To get a number, I go \
+from cost per request to cost per user per month: tokens times price, times requests per user, times 30 days. Then I'd \
+cache what repeats and batch what can wait, and route easy traffic to a smaller model."""
+
+[[chapter.6.followup]]
+question = "Usage grows 10×. What breaks first?"
+strong = "The bill grows at least 10×, and faster if conversations also get longer, because history is re-sent every turn. Check cost per user against revenue per user before it scales. Then cache the shared prompt, batch background work, route easy requests to a smaller model, cap answer length and summarize old chat turns. Watch rate limits and latency too."
+
+[[chapter.6.followup]]
+question = "Your CFO asks for cost per active user. Walk me through it."
+strong = "Start with one request: input tokens (system prompt, history, documents, the question) and output tokens (the answer plus any thinking), times each price. Multiply by requests per user per month to get cost per user. Put it next to revenue per user: that's the AI part of gross margin. Then show which levers move it most."
+
+[[chapter.6.followup]]
+question = "A competitor's model is half the price per token. Do you switch?"
+strong = "Not on price per token alone. Tokenizers differ, so run your real traffic through both and compare cost per request, then quality, speed and the cost of reviewing mistakes. Switch if it's cheaper on your own text and good enough on your own test cases."
+
+[chapter.7]
+question = "What's a context window? Paste everything in or fetch what's relevant?"
+checklist = [
+  "Says the context window is everything the model can see in one request, with a hard token limit",
+  "Says that when it overflows, older content is dropped or summarized, and the model forgets it",
+  "Says every request pays for everything in the window again (no memory between requests)",
+  "Says quality can drop for content in the middle of very long inputs",
+  "Names at least one benefit of retrieval (cheaper, more focused) and its risk: the search can miss the key document",
+]
+hint = "what the model sees in one request (up to {window} tokens) · overflow means forgetting · paying for the window every request · the middle gets less attention · fetch what's relevant, and measure the search"
+sample_answer = """The context window is everything a model can see in one request: the system prompt, the history, any documents \
+and its own answer. It has a hard limit, up to {window} tokens (about {window_words} words) on current Claude models. \
+The model has no memory between requests, so the app resends what matters, and every request pays for the whole window \
+again. When it overflows, the oldest content is dropped or summarized and the model forgets it. Long inputs are also \
+slower, and details in the middle get less attention. So for a big document set I'd fetch what's relevant and measure \
+how often the search finds the right piece. Retrieval is far cheaper per request and more focused, but the search can \
+miss the one document that mattered. I'd paste everything only when the material is small."""
+
+[[chapter.7.followup]]
+question = "The context window doubled for free. Do you still need retrieval?"
+strong = "Usually yes. You'd still pay for every pasted token on every request, long inputs are slower, and the middle gets less attention. Retrieval keeps requests cheap and focused. A bigger window helps when the material is small or the task needs all of it at once."
+
+[[chapter.7.followup]]
+question = "Retrieval missed the key document. Now what?"
+strong = "First find out why: was it indexed, how was it split, did the question's wording match it? Then fix the search with better chunks, keyword plus meaning-based search, or more pieces re-ranked. Let the model say when it can't find the answer, and track how often the search finds the right document on test questions."
+
+[[chapter.7.followup]]
+question = "Users want the assistant to remember them across sessions. How?"
+strong = "The model can't remember, but the app can. Store key facts or a short summary per user, and add the relevant ones to each request. Decide what's worth keeping, and let users see and delete it. Privacy and consent matter most for health or money."
+
+[chapter.8]
+question = "Design an AI feature for X."
+checklist = [
+  "Starts with the user and the job to be done (who uses it, what has to go right) before picking a model",
+  "Picks a model size and gives a reason tied to quality, speed or cost",
+  "Picks temperature or effort and says why it fits the task",
+  "Picks a context strategy (paste everything, fetch what's relevant, or none) and says why",
+  "Gives a monthly cost as a number, built from users, requests, tokens and price",
+  "Says how long users will wait for an answer, or that nobody waits",
+  "Names the hallucination risk and at least one safeguard",
+  "Commits to a recommendation and says what would change it",
+]
+hint = "user and job · quality, speed, cost, risk · model · temperature or effort · context · a cost number · risks and safeguards · recommendation · how you'd measure it"
+sample_answer = """I'd start with the user and the job: who it's for and what has to go right. \
+Then requirements: quality, speed, cost, and how bad a mistake would be. \
+I'd pick the smallest model that meets the quality bar, with low effort for one-right-answer work, \
+and fetch only the relevant documents while caching the fixed system prompt. \
+Users × requests × tokens × price gives the monthly cost and the cost per user, and I'd check the time to first token against how long people will wait. \
+The main risk is a confident wrong answer, so I'd ground it in the documents, let it say "I don't know", and add human review where a mistake hurts. \
+I'd launch with the small model, switch up if our test set says it isn't good enough, \
+and measure with that test set before launch and user flags after."""
+
+# General twists: Chapter 8 asks two of the scenario's own follow-ups, then one of these.
+[[chapter.8.followup]]
+question = "Latency now matters twice as much. Does your answer change?"
+strong = "Look at time to first token. A smaller model, less effort, a shorter prompt and caching all start faster, and streaming makes the wait feel shorter. Batch is out. Say what quality you'd give up and how you'd check it's still good enough."
+
+[[chapter.8.followup]]
+question = "Finance halves your budget. What do you cut first?"
+strong = "The levers users don't feel: caching the fixed prompt, batch for anything nobody waits on, shorter answers, and fetching instead of pasting everything. Then route easy requests to a smaller model. Show the new cost per user to prove it fits."

@@ -1,0 +1,355 @@
+╭─ How an LLM generates text ──────────────────────────────────────────────────╮
+│                                                                              │
+│  Question: "Explain how an LLM generates text."                              │
+│                                                                              │
+│  You'll answer this in your own words at the end of the chapter. The Recap   │
+│  at the end of the Learn section lists what a strong answer covers.          │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 1/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 1 of 8 · What an LLM is ────────────────────────────────────────────────────╮
+│                                                                              │
+│  A large language model (LLM) is a program that has read an enormous amount  │
+│  of text and learned the patterns of which words tend to follow which.       │
+│  It doesn't look answers up in a database, and it doesn't search the web     │
+│  unless a product wires that in.                                             │
+│  It writes whatever is most likely to come next.                             │
+│                                                                              │
+│  Think of it like: a very well-read person finishing your sentence: fluent   │
+│  and usually right, but working from memory, not from a reference book.      │
+│                                                                              │
+│  Example: Ask "What's the capital of France?" and it writes "Paris" because  │
+│  that continuation was overwhelmingly common in what it read, not because    │
+│  it checked.                                                                 │
+│                                                                              │
+│  Why a PM cares: This one idea explains both the strengths (fluent,          │
+│  flexible) and the failures (confident mistakes, Chapter 4).                 │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 2/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 2 of 8 · Think of it like autocomplete ─────────────────────────────────────╮
+│                                                                              │
+│  Your phone suggests the next word as you type. An LLM does the same job:    │
+│  given some text, guess what comes next.                                     │
+│  The difference is scale: it was trained on vastly more text, and it can     │
+│  keep going for pages instead of one word.                                   │
+│                                                                              │
+│  Think of it like: autocomplete that has read a large share of the internet  │
+│  and many books.                                                             │
+│                                                                              │
+│  Example: "Thanks so much for ___" → "your", "the", "everything". Your       │
+│  phone and an LLM both rank options like these.                              │
+│                                                                              │
+│  Why a PM cares: When an LLM product surprises you, ask: what would a very   │
+│  good autocomplete write here?                                               │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 3/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 3 of 8 · The vocabulary ────────────────────────────────────────────────────╮
+│                                                                              │
+│  Prompt: the text you send in (instructions, a question, documents).         │
+│  Response: the text that comes back (also called a completion).              │
+│  Model: the trained program itself, for example Claude Sonnet 5.5.           │
+│  API: how a product sends prompts to a model over the internet and gets      │
+│  responses back. Products pay per use.                                       │
+│                                                                              │
+│  Example: A support app sends the customer's message plus its own            │
+│  instructions as the prompt, through the API, to a model, and shows the      │
+│  response in the chat window.                                                │
+│                                                                              │
+│  Why a PM cares: These four words come up in every AI product conversation,  │
+│  and engineers expect you to use them precisely.                             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 4/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 4 of 8 · Training vs. answering a request ──────────────────────────────────╮
+│                                                                              │
+│  Training happens once, before you ever use the model: months of computing   │
+│  that cost tens to hundreds of millions of dollars.                          │
+│  Inference is the model answering one request. It happens every time a user  │
+│  hits send, and it's what you pay for per use.                               │
+│                                                                              │
+│  Think of it like: writing a textbook (once, slow, expensive) vs. a student  │
+│  answering a question from it (every time, quick, cheap).                    │
+│                                                                              │
+│  Why a PM cares: Training cost is the lab's problem. Inference cost is your  │
+│  product's cost of goods sold (Chapter 6).                                   │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 5/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 5 of 8 · Knowledge cutoff, and how chatbots still know today's news ────────╮
+│                                                                              │
+│  Training stops on a date, so the model's own knowledge has a knowledge      │
+│  cutoff.                                                                     │
+│  Chat apps like ChatGPT and Claude get around it with tools such as web      │
+│  search: the app searches first, adds the results to the prompt, and the     │
+│  model reads them before answering.                                          │
+│  The model didn't learn the news; it was handed it.                          │
+│                                                                              │
+│  Think of it like: a student who stopped studying in June, taking an         │
+│  open-book test with today's newspaper on the desk.                          │
+│                                                                              │
+│  Example: Ask Claude about yesterday's game: it searches, reads the          │
+│  article, and summarizes it. Call the same model through the API without     │
+│  search, and it can only guess or say it doesn't know.                       │
+│                                                                              │
+│  Why a PM cares: Fresh or private information has to come from your          │
+│  product, not the model. Fetching it is a design choice with its own cost    │
+│  and failure modes (Chapter 7).                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 6/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 6 of 8 · Probabilities ─────────────────────────────────────────────────────╮
+│                                                                              │
+│  For "The sky is ___", the model gives every possible next word a            │
+│  probability: a score for how likely it is.                                  │
+│  All the scores add up to 100%. Common, sensible continuations get high      │
+│  scores; odd ones get tiny scores.                                           │
+│                                                                              │
+│  Example: Below: blue 62%, clear 18%, dark 12%, gray 6%, ugly 2%.            │
+│                                                                              │
+│  Why a PM cares: Everything you'll see in this tutorial (variety,            │
+│  creativity, mistakes) comes from how the model picks from these scores.     │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ blue ███████████████████··········· 62%
+clear █████························· 18%
+ dark ████·························· 12%
+ gray ██····························  6%
+ ugly █·····························  2%
+Illustrative odds, computed with the same math real models use.
+Ch 1 · Step 7/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 7 of 8 · One piece at a time ───────────────────────────────────────────────╮
+│                                                                              │
+│  The model picks one token (a word or a piece of a word; Chapter 2 covers    │
+│  these), adds it to the text, and then scores the next token given           │
+│  everything so far.                                                          │
+│  It repeats until the answer is done. A long answer is hundreds of these     │
+│  small picks in a row.                                                       │
+│                                                                              │
+│  Think of it like: laying a path one stone at a time, choosing each stone    │
+│  by looking at the path behind you.                                          │
+│                                                                              │
+│  Example: The sky is → blue → and → clear → today → .                        │
+│                                                                              │
+│  Why a PM cares: Longer answers mean more picks, which means more time and   │
+│  more cost. Answer length is a product lever.                                │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 8/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ 8 of 8 · Bigger vs. smaller models ─────────────────────────────────────────╮
+│                                                                              │
+│  Parameters are the billions of numbers a model learned during training:     │
+│  its stored knowledge and skill.                                             │
+│  More parameters usually means more knowledge and better reasoning, but      │
+│  more computing for every token, so the model is slower and pricier.         │
+│                                                                              │
+│  Example: Claude comes in three sizes: Haiku (small), Sonnet (medium) and    │
+│  Opus (large).                                                               │
+│                                                                              │
+│  Why a PM cares: Choosing a model size is a quality-speed-cost tradeoff      │
+│  (Chapter 5). Bigger isn't automatically better for your product.            │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+┏━━━━━━━━┳━━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃ Size   ┃ Quality ┃ Speed ┃ Price ┃
+┡━━━━━━━━╇━━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ Small  │ ↑       │ ↑↑↑   │ $     │
+│ Medium │ ↑↑      │ ↑↑    │ $$    │
+│ Large  │ ↑↑↑     │ ↑     │ $$$   │
+└────────┴─────────┴───────┴───────┘
+Relative, not measured. Chapter 5 puts real prices next to these.
+Ch 1 · Step 9/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Recap ──────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  This chapter in 5 points. They're also what a strong answer to "Explain     │
+│  how an LLM generates text." covers.                                         │
+│                                                                              │
+│  • It predicts one token (a word or word piece) at a time.                   │
+│  • It gives every possible next token a probability and picks from them.     │
+│  • It adds the pick and repeats until the answer is done.                    │
+│  • Its own knowledge stops at the training cutoff; apps add fresh facts,     │
+│  like search results, to the prompt.                                         │
+│  • Bigger models are better, but slower and pricier.                         │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 10/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 1 (not graded)
+When you ask a model a question, does it look the answer up in a database?
+  1. Yes, it searches a database of facts
+  2. No, it writes the most likely continuation
+  3. Only for facts, not for opinions
+Your pick [1-3]
+Not quite: it's 2. It generates likely text from patterns learned in training. 
+Products can add search, but the model itself doesn't look things up.
+Reread Learn screen 1? [Y/n]
+╭─ 1 of 8 · What an LLM is ────────────────────────────────────────────────────╮
+│                                                                              │
+│  A large language model (LLM) is a program that has read an enormous amount  │
+│  of text and learned the patterns of which words tend to follow which.       │
+│  It doesn't look answers up in a database, and it doesn't search the web     │
+│  unless a product wires that in.                                             │
+│  It writes whatever is most likely to come next.                             │
+│                                                                              │
+│  Think of it like: a very well-read person finishing your sentence: fluent   │
+│  and usually right, but working from memory, not from a reference book.      │
+│                                                                              │
+│  Example: Ask "What's the capital of France?" and it writes "Paris" because  │
+│  that continuation was overwhelmingly common in what it read, not because    │
+│  it checked.                                                                 │
+│                                                                              │
+│  Why a PM cares: This one idea explains both the strengths (fluent,          │
+│  flexible) and the failures (confident mistakes, Chapter 4).                 │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 11/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+Quick check 2 (not graded)
+ChatGPT just answered a question about yesterday's news. How?
+  1. It was retrained overnight
+  2. The app searched the web and added the results to the prompt
+  3. Its knowledge cutoff is today
+Your pick [1-3]
+Not quite: it's 2. The model's own knowledge stops at its training cutoff. The 
+app fetched the news and handed it to the model in the prompt.
+Reread Learn screen 5? [Y/n]
+╭─ 5 of 8 · Knowledge cutoff, and how chatbots still know today's news ────────╮
+│                                                                              │
+│  Training stops on a date, so the model's own knowledge has a knowledge      │
+│  cutoff.                                                                     │
+│  Chat apps like ChatGPT and Claude get around it with tools such as web      │
+│  search: the app searches first, adds the results to the prompt, and the     │
+│  model reads them before answering.                                          │
+│  The model didn't learn the news; it was handed it.                          │
+│                                                                              │
+│  Think of it like: a student who stopped studying in June, taking an         │
+│  open-book test with today's newspaper on the desk.                          │
+│                                                                              │
+│  Example: Ask Claude about yesterday's game: it searches, reads the          │
+│  article, and summarizes it. Call the same model through the API without     │
+│  search, and it can only guess or say it doesn't know.                       │
+│                                                                              │
+│  Why a PM cares: Fresh or private information has to come from your          │
+│  product, not the model. Fetching it is a design choice with its own cost    │
+│  and failure modes (Chapter 7).                                              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Ch 1 · Step 12/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+Watch it generate
+The model scores every candidate for the next token, takes one, and repeats. 
+Here it always takes the top one; Chapter 3 shows what happens when it doesn't.
+Predict first, then see the model's odds. Go with your gut: you've read 
+thousands of sentences like this, the same kind of text the model learned from.
+
+Prompt: The patient was prescribed
+
+So far: The patient was prescribed ___
+  1. a
+  2. antibiotics
+  3. the
+  4. medication
+Your prediction: which word is most likely next? [1-4]
+Same as the model: 'a', at 35%.
+          a ███████████··················· 35%
+antibiotics ████████······················ 25%
+        the ██████························ 20%
+ medication ████·························· 12%
+→ The patient was prescribed a
+Enter for the next token
+course ████████████·················· 40%
+ daily ███████······················· 22%
+   low ██████························ 20%
+   new █████························· 18%
+→ The patient was prescribed a course
+Enter for the next token
+
+So far: The patient was prescribed a course ___
+  1. to
+  2. for
+  3. of
+  4. .
+Your prediction: which word is most likely next? [1-4]
+The model's top pick is 'of' (85%). Yours, 'to', got 4%. Several words fit here;
+the model just ranks them.
+ of ██████████████████████████···· 85%
+  . ██····························  6%
+for ██····························  5%
+ to █·····························  4%
+→ The patient was prescribed a course of
+Enter for the next token
+antibiotics █████████████████············· 55%
+   steroids ██████························ 20%
+  treatment █████························· 15%
+   physical ███··························· 10%
+→ The patient was prescribed a course of antibiotics
+Enter for the next token
+  for ██████████████················ 45%
+    . █████████····················· 30%
+   to █████························· 15%
+after ███··························· 10%
+→ The patient was prescribed a course of antibiotics for
+Enter for the next token
+the ████████████·················· 40%
+ an █████████····················· 30%
+  a ██████························ 20%
+her ███··························· 10%
+→ The patient was prescribed a course of antibiotics for the
+Enter for the next token
+infection ██████████████████············ 60%
+pneumonia ██████························ 20%
+    wound ████·························· 12%
+ symptoms ██····························  8%
+→ The patient was prescribed a course of antibiotics for the infection
+Enter for the next token
+  . ████████████████████████······ 80%
+  , ███··························· 10%
+and ██····························  6%
+  ! █·····························  4%
+→ The patient was prescribed a course of antibiotics for the infection.
+
+Illustrative odds, computed with the same math real models use. Showing the top 
+4 candidates.
+That's all generation is: score, pick, append, repeat. A long answer is hundreds
+of rounds.
+Ch 1 · Step 13/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ How an LLM generates text ──────────────────────────────────────────────────╮
+│                                                                              │
+│  Question: "Explain how an LLM generates text."                              │
+│                                                                              │
+│  Your turn.                                                                  │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Answer out loud, then type your answer in your own words. Stuck? Type h for a 
+hint. (finish with an empty line)
+>
+>
+Ch 1 · Step 14/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+╭─ Your answer ────────────────────────────────────────────────────────────────╮
+│ It predicts the next token from probabilities, one at a time.                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+A strong answer covers these. Did yours?
+1. Says it predicts one token (a word or word piece) at a time [y/N]
+2. Says it picks from a probability distribution over possible next tokens [y/N]
+3. Says it appends the pick and repeats until the answer is done [y/N]
+4. Mentions the knowledge cutoff, and that apps add newer information to the 
+prompt (for example, web search results) [y/N]
+5. Notes that bigger models are better but slower and pricier [y/N]
+Self-score: 5/5
+╭─ A strong answer ────────────────────────────────────────────────────────────╮
+│ An LLM writes one token at a time. At each step it gives every possible next │
+│ token a probability, based on patterns from training, picks one, adds it to  │
+│ the text, and repeats until the answer is done. Its own knowledge stops at   │
+│ its training cutoff, so apps add fresh information, like search results, to  │
+│ the prompt. Bigger models answer better but are slower and cost more, so     │
+│ choosing one is a quality, speed and cost tradeoff.                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Now say it out loud once more, in your own words.
+Ch 1 · Step 15/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+Follow-up: But ChatGPT told me about yesterday's news. How?
+Your reply (finish with an empty line)
+>
+>
+A strong answer mentions: Training stopped on a date: the knowledge cutoff. 
+Anything after that isn't in the model unless the product supplies it in the 
+prompt, for example by searching the web first.
+Ch 1 · Step 16/16 · seed 4242   [Enter] next  [b] back  [q] menu  [f] feedback
+How was this chapter? Want to send feedback? [y/N]
