@@ -1,0 +1,4 @@
+# GitHub logins whose feedback /consume may act on, one per line.
+# The repo is public: anyone can open a `feedback` issue. Issues and comments from anyone
+# not listed here (or the repo owner, who is always trusted) never reach an agent;
+# /consume lists those issues for Sean instead. Adding a login takes a PR to main.

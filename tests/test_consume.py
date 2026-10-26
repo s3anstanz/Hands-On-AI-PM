@@ -189,3 +189,77 @@ def test_cli_bad_input_is_one_line(tmp_path, capsys):
     assert capsys.readouterr().err.startswith(f"consume.py: {bad}:")
     assert consume.main(["batches", str(tmp_path / "missing.json")]) == 2
     assert capsys.readouterr().err.startswith("consume.py: ")
+
+
+# Trust: the repo is public, so anyone can open an issue that the Feedback form labels `feedback`.
+# Only the owner's and listed testers' issues and comments may reach an agent.
+
+
+def by(login, n, comments=()):
+    return {**issue(n, comments=comments), "author": {"login": login}}
+
+
+def screened(raw, logins=()):
+    return consume.screen(raw, OWNER, frozenset(logins))
+
+
+def test_strangers_issue_never_reaches_the_queue_and_is_listed_for_sean():
+    safe, skipped = screened([by("stranger", 50), by(OWNER, 51)])
+    assert [i["number"] for i in safe] == [51]
+    assert skipped == [{"number": 50, "author": "stranger"}]
+
+
+def test_listed_testers_issue_is_kept_and_logins_ignore_case():
+    safe, skipped = screened([by("Tester-1", 52)], logins=("tester-1",))
+    assert [i["number"] for i in safe] == [52] and skipped == []
+
+
+def test_strangers_comments_are_dropped_from_trusted_issues():
+    comments = [
+        said("planted instructions", by="stranger"),
+        agent("Routed to Cori"),
+        said("use the sky example"),
+        said("more context", by="tester-1"),
+    ]
+    (kept,), _ = screened([by(OWNER, 53, comments)], logins=("tester-1",))
+    assert [c["body"] for c in kept["comments"]] == [comments[1]["body"], "use the sky example", "more context"]
+
+
+def test_screened_output_is_what_queue_reads():
+    safe, _ = screened([by(OWNER, 54)])
+    assert q(safe, []) == [consume.QueueItem(54, "3", "new")]
+
+
+def test_tester_list_skips_comments_and_blank_lines(tmp_path):
+    path = tmp_path / "trusted.txt"
+    path.write_text("# testers\n\nTester-1\n  tester-2  \n")
+    assert consume.load_testers(str(path)) == frozenset({"tester-1", "tester-2"})
+
+
+def test_tester_list_rejects_a_line_that_is_not_a_login(tmp_path):
+    path = tmp_path / "trusted.txt"
+    path.write_text("tester-1\nnot a login!\n")
+    with pytest.raises(ValueError, match="line 2"):
+        consume.load_testers(str(path))
+
+
+def test_cli_screen_prints_safe_issues_and_skipped(tmp_path, capsys):
+    raw, listed = tmp_path / "raw.json", tmp_path / "trusted.txt"
+    raw.write_text(json.dumps([by("stranger", 50), by("tester-1", 52, [said("hi", by="stranger")])]))
+    listed.write_text("tester-1\n")
+    assert consume.main(["screen", str(raw), "--owner", OWNER, "--testers", str(listed)]) == 0
+    out = json.loads(capsys.readouterr().out)
+    assert [i["number"] for i in out["issues"]] == [52] and out["issues"][0]["comments"] == []
+    assert out["skipped"] == [{"number": 50, "author": "stranger"}]
+
+
+def test_cli_screen_needs_each_issues_author(tmp_path, capsys):
+    raw, listed = tmp_path / "raw.json", tmp_path / "trusted.txt"
+    raw.write_text(json.dumps([issue(1)]))
+    listed.write_text("")
+    assert consume.main(["screen", str(raw), "--owner", OWNER, "--testers", str(listed)]) == 2
+    assert capsys.readouterr().err.count("\n") == 1
+
+
+def test_the_shipped_tester_list_loads():
+    consume.load_testers(consume.TESTERS_PATH)
