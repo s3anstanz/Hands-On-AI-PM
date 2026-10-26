@@ -1,10 +1,11 @@
 """Bookkeeping for the /consume skill (.claude/skills/consume/SKILL.md).
 
 /consume reads open `feedback` issues and PRs with `gh`, saves them as JSON,
-and asks this module which issues need a decision. The judgment calls (what an
+and asks this module which issues may be read and which need a decision. The judgment calls (what an
 issue is, whether to close it) stay with the agents; the rules that must not
 drift live here, with tests. This module never calls `gh` or the network.
 
+    python consume.py trusted RAW.json --owner LOGIN [--trusted FILE]  # drop strangers' issues and comments
     python consume.py queue ISSUES.json PRS.json --owner LOGIN  # issues that need a decision
     python consume.py batches ROUTED.json [--cap N] # routed issues grouped into PRs
 
@@ -25,6 +26,10 @@ MARKER = "<!-- consume -->"  # starts every comment /consume writes on an issue
 AGENT_LABELS = ("cori", "frank", "needs-sean", "in-progress")
 LANES = ("cori", "frank")
 MAX_PRS_PER_RUN = 3
+# The repo is public, so anyone can open an issue that the Feedback form labels `feedback`.
+# Only the owner's and these testers' issues and comments ever reach an agent. Changing the list takes a PR.
+TRUSTED_PATH = str(Path(__file__).parent / ".claude" / "skills" / "consume" / "trusted-authors.txt")
+_LOGIN = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$")
 
 _WHERE = re.compile(r"^### Where in the tutorial[ \t]*\n(.*?)(?=^### |\Z)", re.DOTALL | re.MULTILINE)
 _CHAPTER = re.compile(r"\bChapter (\w+) \(")
@@ -82,6 +87,38 @@ def _why(issue: dict, open_prs: set[int], closed_prs: dict[int, int], owner: str
     if "needs-sean" in labels:
         return None
     return item("pending" if lane else "new")
+
+
+def load_trusted(path: str) -> frozenset[str]:
+    """The testers' GitHub logins, lowercased. Blank lines and `#` comments are skipped."""
+    logins = set()
+    for number, line in enumerate(Path(path).read_text().splitlines(), 1):
+        login = line.split("#", 1)[0].strip()
+        if not login:
+            continue
+        if not _LOGIN.match(login):
+            raise ValueError(f"line {number} is not a GitHub login: {line.strip()[:40]!r}")
+        logins.add(login.lower())
+    return frozenset(logins)
+
+
+def trusted(issues: list[dict], owner: str, testers: frozenset[str]) -> tuple[list[dict], list[dict]]:
+    """The issues an agent may read, and the ones it may not.
+
+    An issue is kept only when the owner or a listed tester opened it. On a kept issue, only the owner's
+    and listed testers' comments are kept (/consume's own comments are the owner's). Everyone else's
+    issues come back as {"number", "author"} for Sean's summary, and their text goes no further.
+    """
+    allowed = testers | {owner.lower()}
+    safe, skipped = [], []
+    for issue in issues:
+        author = issue["author"]["login"]
+        if author.lower() not in allowed:
+            skipped.append({"number": issue["number"], "author": author})
+            continue
+        comments = [c for c in issue["comments"] if c["author"]["login"].lower() in allowed]
+        safe.append({**issue, "comments": comments})
+    return safe, skipped
 
 
 def queue(issues: list[dict], prs: list[dict], owner: str) -> list[QueueItem]:
@@ -148,7 +185,12 @@ def _issue_shape_ok(issue: dict) -> bool:
     )
 
 
+def _raw_issue_shape_ok(issue: dict) -> bool:
+    return isinstance(issue["author"].get("login"), str) and _issue_shape_ok(issue)
+
+
 ISSUE_KEYS = {"number": int, "body": str, "labels": list, "comments": list}
+RAW_ISSUE_KEYS = {**ISSUE_KEYS, "author": dict}
 PR_KEYS = {"number": int, "body": str, "state": str}
 ROUTED_KEYS = {"number": int, "lane": str}
 
@@ -156,6 +198,10 @@ ROUTED_KEYS = {"number": int, "lane": str}
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="consume.py")
     sub = parser.add_subparsers(dest="command", required=True)
+    t = sub.add_parser("trusted")
+    t.add_argument("issues")
+    t.add_argument("--owner", required=True, help="repo owner's login: always trusted")
+    t.add_argument("--trusted", default=TRUSTED_PATH, help="file of testers' logins, one per line")
     q = sub.add_parser("queue")
     q.add_argument("issues")
     q.add_argument("prs")
@@ -167,6 +213,13 @@ def main(argv: list[str] | None = None) -> int:
 
     current = ""
     try:
+        if args.command == "trusted":
+            current = args.issues
+            issues = _load(args.issues, RAW_ISSUE_KEYS, _raw_issue_shape_ok)
+            current = args.trusted
+            safe, skipped = trusted(issues, args.owner, load_trusted(args.trusted))
+            print(json.dumps({"issues": safe, "skipped": skipped}, indent=2))
+            return 0
         if args.command == "queue":
             current = args.issues
             issues = _load(args.issues, ISSUE_KEYS, _issue_shape_ok)
