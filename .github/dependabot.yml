@@ -1,9 +1,9 @@
 version: 2
 updates:
-  # Python deps in pyproject.toml / uv.lock. Dependabot doesn't touch the generated
-  # requirements*.txt, so CI's sync check fails on its PRs until someone runs
-  # scripts/sync-requirements.sh on the branch. Monthly and grouped to keep that to one
-  # PR a month. Security fixes still arrive as soon as they're published.
+  # Python deps in pyproject.toml / uv.lock. Dependabot also edits the generated
+  # requirements*.txt, but not to match uv.lock, so CI's sync check fails on its PRs
+  # until someone runs scripts/sync-requirements.sh on the branch. Monthly and grouped
+  # to keep that to one PR a month. Security fixes still arrive as soon as they're published.
   - package-ecosystem: "uv"
     directory: "/"
     schedule:

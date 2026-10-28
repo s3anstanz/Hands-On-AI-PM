@@ -12,7 +12,7 @@ repos:
       - id: gitleaks # GitHub can't scan private repos on this plan, so this is the line of defense
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 44b5042edab9382aba712eed4f9c7bab7a3d6a3e # frozen: v0.17.0 (keep in step with pyproject.toml)
+    rev: f368fb366ff7f2f808dd324b83a6d32267799e19 # frozen: v0.17.2 (keep in step with pyproject.toml)
     hooks:
       - id: ruff-check
         args: [--fix]
