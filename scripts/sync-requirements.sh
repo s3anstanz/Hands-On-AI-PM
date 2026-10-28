@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Regenerate requirements*.txt from uv.lock (CI fails if they drift).
-# Run after any dependency change, including Dependabot PRs, which update
-# uv.lock but not these files.
+# Run after any dependency change, including Dependabot PRs, whose edits to
+# these files don't match uv.lock.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 uv lock --check || uv lock

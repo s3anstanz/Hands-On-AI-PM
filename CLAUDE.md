@@ -61,8 +61,9 @@ scripts/sync-requirements.sh         # after any dependency change
   plus `astral-sh/setup-uv` are allowed (repo setting). A new third-party
   action needs Sean's OK and an allow-list update.
 - Dependabot opens one grouped dependency PR a month (plus security fixes as
-  they're published). It updates `uv.lock` but not `requirements*.txt`, so the
-  "requirements*.txt match uv.lock" step fails on it: check out the branch,
+  they're published). It updates `uv.lock` and also edits `requirements*.txt`,
+  but its edits don't match the lock, so the "requirements*.txt match uv.lock"
+  step fails on it: check out the branch,
   run `scripts/sync-requirements.sh`, commit, and push. That step is the only
   expected red on those PRs; treat any other failure as real.
 - Keep the ruff version in `pyproject.toml` and `.pre-commit-config.yaml` in step.
