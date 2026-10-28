@@ -66,7 +66,8 @@ scripts/sync-requirements.sh         # after any dependency change
   step fails on it: check out the branch,
   run `scripts/sync-requirements.sh`, commit, and push. That step is the only
   expected red on those PRs; treat any other failure as real.
-- Keep the ruff version in `pyproject.toml` and `.pre-commit-config.yaml` in step.
+- Ruff's version lives only in `pyproject.toml`; the pre-commit hooks run it
+  with `uv run`. Don't add a separate ruff pin to `.pre-commit-config.yaml`.
 - Record user-visible changes in `CHANGELOG.md`.
 - Tester feedback arrives as issues labeled `feedback`. The field ids in
   `.github/ISSUE_TEMPLATE/feedback.yml` must match the query keys in
