@@ -10,11 +10,11 @@ dependencies = [
 
 [project.optional-dependencies]
 # Optional live mode (Claude grading, official token counts). Imported lazily.
-live = ["anthropic>=1.0,<2"]
+live = ["anthropic>=1.0,<3"]
 
 [dependency-groups]
 dev = [
-    "anthropic>=1.0,<2",
+    "anthropic>=1.0,<3",
     "mypy>=1.18",
     "pre-commit>=4",
     "pytest>=9",
