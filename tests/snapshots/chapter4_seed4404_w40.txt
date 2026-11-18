@@ -287,6 +287,9 @@ Illustrative odds, computed with the
 same math real models use.
 The right answer is 'Mauna Kea'. It 
 isn't the model's top pick.
+Each run picks one word, with the chance
+its bar shows. Any word but the right 
+one is wrong.
 Your prediction: out of 20 runs at 
 temperature 0.7, how many give a wrong 
 answer? [0-20]
@@ -301,6 +304,11 @@ Mauna Kea █·········  1×
 Wrong answers: 19 of 20. You guessed 15.
 Each wrong one reads as confidently as 
 the right one.
+How to estimate it: 'Mauna Kea' has 
+about a 27% chance per run at 
+temperature 0.7. So about 73% of 20 
+runs, or 15, come out wrong. A real 
+tally varies a little around that.
 What this shows: a wrong answer comes 
 from the same odds as a right one (Learn
 2).
@@ -364,8 +372,8 @@ the chart:
 Chart: blood type AB negative.
 The patient's blood type is ___
 Your prediction: out of 20 runs at 
-temperature 0.7, how many are wrong now?
-[0-20]
+temperature 0.7, how many are wrong now,
+with the chart in the prompt? [0-20]
 
 20 runs at temperature 0.7, with the 
 chart
@@ -374,8 +382,10 @@ AB negative █████████· 18×
  A positive █·········  1×
 Illustrative odds, computed with the 
 same math real models use.
-Wrong answers: 19 of 20 without the 
-chart, 2 with it. You guessed 2.
+Wrong answers with the chart: 2 of 20. 
+You guessed 2.
+For comparison, the last step's run 
+without the chart: 19 of 20 wrong.
 The model didn't get smarter. It was 
 handed the fact. Grounding cuts mistakes
 sharply but not always to zero, so 
