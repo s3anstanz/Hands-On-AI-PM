@@ -185,8 +185,8 @@ Mauna Kea █████████····················· 
    Denali █·····························  4%
 Illustrative odds, computed with the same math real models use.
 The right answer is 'Mauna Kea'. It isn't the model's top pick.
-Each run picks one word, with the chance its bar shows. Any word but the right 
-one is wrong.
+Each run picks one word. These bars are the starting odds, and temperature 0.7 
+shifts them toward the top pick. Any word but the right one is wrong.
 Your prediction: out of 20 runs at temperature 0.7, how many give a wrong 
 answer? [0-20]
 At temperature 0.7 the odds sharpen: 'Everest' goes from 58% to 68%.
@@ -198,9 +198,9 @@ Mauna Kea ██····························  1×
    Denali ······························  0×
 Wrong answers: 19 of 20. You guessed 15. Each wrong one reads as confidently as 
 the right one.
-How to estimate it: 'Mauna Kea' has about a 27% chance per run at temperature 
-0.7. So about 73% of 20 runs, or 15, come out wrong. A real tally varies a 
-little around that.
+How to estimate it: 'Mauna Kea' starts at 30% and ends at about 27% per run at 
+temperature 0.7. So about 73% of 20 runs, or 15, come out wrong. A real tally 
+varies a little around that.
 What this shows: a wrong answer comes from the same odds as a right one (Learn 
 2).
 Ch 4 · Step 11/18 · seed 4404   [Enter] next  [b] back  [q] menu  [f] feedback

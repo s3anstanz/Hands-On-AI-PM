@@ -153,7 +153,10 @@ def watch_it_happen(ctx: Ctx) -> None:
     _bars(ctx, sampling.normalize(case.without), case.answer)
     ctx.console.print(f"[dim]{ui.ILLUSTRATIVE}[/dim]")
     ctx.console.print(f"The right answer is {escape(repr(case.answer))}. It isn't the model's top pick.")
-    ctx.console.print("Each run picks one word, with the chance its bar shows. Any word but the right one is wrong.")
+    ctx.console.print(
+        f"Each run picks one word. These bars are the starting odds, and temperature {TEMPERATURE:g} "
+        "shifts them toward the top pick. Any word but the right one is wrong."
+    )
     guess = ctx.ask_number(
         f"Your prediction: out of {RUNS} runs at temperature {TEMPERATURE:g}, how many give a wrong answer?",
         "guess_wrong",
@@ -167,13 +170,14 @@ def watch_it_happen(ctx: Ctx) -> None:
     ctx.console.print(f"\n[bold]{RUNS} runs at temperature {TEMPERATURE:g}[/bold]")
     _bars(ctx, probs, case.answer, counts)
     right_chance = probs[case.answer]
+    start = sampling.normalize(case.without)[case.answer]
     ctx.console.print(
         f"Wrong answers: {wrong} of {RUNS}. You guessed {guess:g}. "
         "Each wrong one reads as confidently as the right one."
     )
     ctx.console.print(
-        f"How to estimate it: {escape(repr(case.answer))} has about a {right_chance:.0%} chance per run at "
-        f"temperature {TEMPERATURE:g}. So about {1 - right_chance:.0%} of {RUNS} runs, "
+        f"How to estimate it: {escape(repr(case.answer))} starts at {start:.0%} and ends at about "
+        f"{right_chance:.0%} per run at temperature {TEMPERATURE:g}. So about {1 - right_chance:.0%} of {RUNS} runs, "
         f"or {RUNS * (1 - right_chance):.0f}, come out wrong. A real tally varies a little around that."
     )
     ctx.console.print(ui.shows("a wrong answer comes from the same odds as a right one (Learn 2)."))
