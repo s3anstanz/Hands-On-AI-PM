@@ -61,10 +61,8 @@ def test_add_context_repeats_the_healthcare_tally():
     _, before = ch4.tally(ctx, case.without, ch4.TEMPERATURE, "medical-without")
     _, after = ch4.tally(ctx, case.with_context, ch4.TEMPERATURE, "medical-with")
     assert f"{before[case.answer]} of 20 runs said so." in healthcare_io.output
-    assert (
-        f"Wrong answers: {20 - before[case.answer]} of 20 without the chart, {20 - after[case.answer]} with it. "
-        "You guessed 1."
-    ) in context_io.output
+    assert f"Wrong answers with the chart: {20 - after[case.answer]} of 20. You guessed 1." in context_io.output
+    assert f"without the chart: {20 - before[case.answer]} of 20 wrong." in context_io.output
     assert case.context in context_io.output
 
 

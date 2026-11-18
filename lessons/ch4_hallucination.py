@@ -153,6 +153,10 @@ def watch_it_happen(ctx: Ctx) -> None:
     _bars(ctx, sampling.normalize(case.without), case.answer)
     ctx.console.print(f"[dim]{ui.ILLUSTRATIVE}[/dim]")
     ctx.console.print(f"The right answer is {escape(repr(case.answer))}. It isn't the model's top pick.")
+    ctx.console.print(
+        f"Each run picks one word. These bars are the starting odds, and temperature {TEMPERATURE:g} "
+        "shifts them toward the top pick. Any word but the right one is wrong."
+    )
     guess = ctx.ask_number(
         f"Your prediction: out of {RUNS} runs at temperature {TEMPERATURE:g}, how many give a wrong answer?",
         "guess_wrong",
@@ -165,9 +169,16 @@ def watch_it_happen(ctx: Ctx) -> None:
     _sharpening(ctx, case.without)
     ctx.console.print(f"\n[bold]{RUNS} runs at temperature {TEMPERATURE:g}[/bold]")
     _bars(ctx, probs, case.answer, counts)
+    right_chance = probs[case.answer]
+    start = sampling.normalize(case.without)[case.answer]
     ctx.console.print(
         f"Wrong answers: {wrong} of {RUNS}. You guessed {guess:g}. "
         "Each wrong one reads as confidently as the right one."
+    )
+    ctx.console.print(
+        f"How to estimate it: {escape(repr(case.answer))} starts at {start:.0%} and ends at about "
+        f"{right_chance:.0%} per run at temperature {TEMPERATURE:g}. So about {1 - right_chance:.0%} of {RUNS} runs, "
+        f"or {RUNS * (1 - right_chance):.0f}, come out wrong. A real tally varies a little around that."
     )
     ctx.console.print(ui.shows("a wrong answer comes from the same odds as a right one (Learn 2)."))
 
@@ -217,7 +228,7 @@ def add_context(ctx: Ctx) -> None:
     ctx.console.print("Now the prompt starts with the fact from the chart:")
     ctx.console.print(f"[bold]{escape(case.context)}\n{escape(case.prompt)}[/bold] ___")
     guess = ctx.ask_number(
-        f"Your prediction: out of {RUNS} runs at temperature {TEMPERATURE:g}, how many are wrong now?",
+        f"Your prediction: out of {RUNS} runs at temperature {TEMPERATURE:g}, how many are wrong now, with the chart in the prompt?",
         "guess_wrong_after",
         0,
         RUNS,
@@ -227,9 +238,9 @@ def add_context(ctx: Ctx) -> None:
     ctx.console.print(f"\n[bold]{RUNS} runs at temperature {TEMPERATURE:g}, with the chart[/bold]")
     _bars(ctx, probs, case.answer, after)
     ctx.console.print(f"[dim]{ui.ILLUSTRATIVE}[/dim]")
+    ctx.console.print(f"Wrong answers with the chart: {RUNS - after[case.answer]} of {RUNS}. You guessed {guess:g}.")
     ctx.console.print(
-        f"Wrong answers: {RUNS - before[case.answer]} of {RUNS} without the chart, "
-        f"{RUNS - after[case.answer]} with it. You guessed {guess:g}."
+        f"For comparison, the last step's run without the chart: {RUNS - before[case.answer]} of {RUNS} wrong."
     )
     ctx.console.print(
         "The model didn't get smarter. It was handed the fact. "
